@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'; // ESSENCIAL PARA O [(ngModel)]
@@ -47,6 +47,29 @@ export class BoloDetalheComponent implements OnInit {
 
   todasImagens: string[] = [];
   imagemAtualIndex: number = 0;
+  zoomViaHistory = false;
+  suporteViaHistory = false;
+  passosHistoryStack: string[] = [];
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: any) {
+    // 1º Prioridade: Se houver imagem expandida (Zoom), fecha ela primeiro
+    if (this.imagemExpandida) {
+      this.imagemExpandida = null;
+      this.zoomViaHistory = false;
+    } 
+    // 2º Prioridade: Se houver modal de suporte aberto, fecha ele
+    else if (this.suporteEmDestaque) {
+      this.suporteEmDestaque = null;
+      this.suporteViaHistory = false;
+    } 
+    // 3º Prioridade: Se estiver avançado nos formulários, retrocede o passo de forma reativa
+    else if (this.passosHistoryStack.length > 0) {
+      this.passosHistoryStack.pop();
+      this.passo = this.passosHistoryStack.length > 0 ? (this.passosHistoryStack[this.passosHistoryStack.length - 1] as any) : 'verificar';
+      window.scrollTo(0, 0);
+    }
+  }
 
   obterTodasImagens(bolo: any): string[] {
     const imgs = [];
@@ -99,14 +122,19 @@ export class BoloDetalheComponent implements OnInit {
     if (this.imagemAtualIndex === index) {
       // Se a imagem já está na frente, abre o zoom
       this.imagemExpandida = this.todasImagens[index];
+      history.pushState({ modal: 'zoom-detalhe' }, '');
+      this.zoomViaHistory = true;
     } else {
       // Se a imagem está atrás, traz para a frente
       this.imagemAtualIndex = index;
     }
   }
-
   fecharImagemExpandida() {
     this.imagemExpandida = null;
+    if (this.zoomViaHistory) {
+      this.zoomViaHistory = false;
+      history.back();
+    }
   }
 
   // Motor Matemático do Efeito "Cartas na Mesa"
@@ -181,10 +209,16 @@ export class BoloDetalheComponent implements OnInit {
   abrirFotoSuporte(suporte: Bolo, event: Event) {
     event.stopPropagation(); // Impede que o clique na foto selecione o suporte acidentalmente
     this.suporteEmDestaque = suporte;
+    history.pushState({ modal: 'suporte-detalhe' }, '');
+    this.suporteViaHistory = true;
   }
 
   fecharFotoSuporte() {
     this.suporteEmDestaque = null;
+    if (this.suporteViaHistory) {
+      this.suporteViaHistory = false;
+      history.back();
+    }
   }
 
   async verificarDisponibilidade() {
@@ -196,8 +230,20 @@ export class BoloDetalheComponent implements OnInit {
   }
 
   proximoPasso(p: 'verificar' | 'formulario' | 'contrato') {
+    // Interceptação inteligente: se o cliente clicar em voltar nos botões da tela, aciona a pilha nativa do histórico
+    if (p === 'verificar' && this.passo === 'formulario') {
+      history.back();
+      return;
+    }
+    if (p === 'formulario' && this.passo === 'contrato') {
+      history.back();
+      return;
+    }
+
     this.passo = p;
     window.scrollTo(0, 0);
+    history.pushState({ passo: p }, '');
+    this.passosHistoryStack.push(p);
   }
 
   async finalizarReserva(bolo: Bolo) {

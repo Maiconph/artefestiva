@@ -149,6 +149,11 @@ export class BoloService {
     return addDoc(bannersRef, { ...banner, imageUrl: url });
   }
 
+  async excluirBanner(id: string) {
+    const bannerDocRef = doc(this.firestore, `banners/${id}`);
+    return deleteDoc(bannerDocRef);
+  }
+
   // --- MÉTODOS DA AGENDA (LOCAÇÕES) ---
   getLocacoes(): Observable<any[]> {
     const locacoesRef = collection(this.firestore, 'locacoes');

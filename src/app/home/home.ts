@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { BoloService, Bolo, Banner } from '../services/bolo';
@@ -42,6 +42,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentSlideIndex: number = 0;
   autoPlaySubscription?: Subscription;
   bannersLength: number = 0;
+  suporteViaHistory = false;
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: any) {
+    if (this.suporteEmDestaque) {
+      this.suporteEmDestaque = null;
+      this.suporteViaHistory = false;
+    }
+  }
 
   ngOnInit() {
     this.carregarBolos();
@@ -112,10 +121,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   abrirFotoSuporte(suporte: any) {
     this.suporteEmDestaque = suporte;
+    history.pushState({ modal: 'suporte-home' }, '');
+    this.suporteViaHistory = true;
   }
 
   fecharFotoSuporte() {
     this.suporteEmDestaque = null;
+    if (this.suporteViaHistory) {
+      this.suporteViaHistory = false;
+      history.back();
+    }
   }
 
   // Delega o acesso ao roteador, que será interceptado de forma blindada pelo CanActivate Guard das rotas

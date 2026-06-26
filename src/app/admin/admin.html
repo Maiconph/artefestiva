@@ -20,7 +20,7 @@
       <button (click)="tipoCadastro = 'financeiro'" [ngClass]="tipoCadastro === 'financeiro' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Financeiro</button>
       <button (click)="tipoCadastro = 'orcamentos'" [ngClass]="tipoCadastro === 'orcamentos' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Pedidos</button>
       <button (click)="tipoCadastro = 'bolo'" [ngClass]="tipoCadastro === 'bolo' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Cadastrar Bolo/Boleira</button>
-      <button (click)="tipoCadastro = 'banner'" [ngClass]="tipoCadastro === 'banner' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Banners</button>
+      <button (click)="tipoCadastro = 'banner'" [ngClass]="tipoCadastro === 'banner' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Página Inicial</button>
       <button (click)="tipoCadastro = 'mensalistas'" [ngClass]="tipoCadastro === 'mensalistas' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Mensalistas</button>
       <button (click)="tipoCadastro = 'whatsapp'" [ngClass]="tipoCadastro === 'whatsapp' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">WhatsApp</button>
       <button (click)="tipoCadastro = 'cobranca'" [ngClass]="tipoCadastro === 'cobranca' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Cobrança</button>
@@ -449,15 +449,101 @@
     <!-- SESSÃO: ABA BANNERS                        -->
     <!-- ========================================== -->
     <div *ngIf="tipoCadastro === 'banner'" class="space-y-6">
-      <input [(ngModel)]="novoBanner.title" type="text" placeholder="Título" class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm w-full placeholder-slate-600 focus:border-blue-500 transition-colors">
-      <input [(ngModel)]="novoBanner.subtitle" type="text" placeholder="Subtítulo" class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm w-full placeholder-slate-600 focus:border-blue-500 transition-colors">
-      <div class="flex flex-col space-y-2">
-        <label class="text-xs uppercase font-bold text-slate-400">Imagem do Banner</label>
-        <input type="file" (change)="onFileSelected($event)" class="block w-full text-sm text-slate-400 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-bold file:uppercase file:bg-slate-700 file:text-white file:cursor-pointer hover:file:bg-slate-600 transition-all">
+      <div class="flex space-x-6 border-b border-slate-700 pb-2 mb-2">
+        <button (click)="subAbaPaginaInicial = 'banners'" [ngClass]="subAbaPaginaInicial === 'banners' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-xs uppercase font-bold tracking-wider pb-1 outline-none transition-all">Banners</button>
+        <button (click)="subAbaPaginaInicial = 'icones'" [ngClass]="subAbaPaginaInicial === 'icones' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-xs uppercase font-bold tracking-wider pb-1 outline-none transition-all">Ícones Categoria</button>
       </div>
-      <button (click)="salvar()" [disabled]="loading" class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-600 text-white py-4 rounded-2xl uppercase text-sm font-bold shadow-lg transition-all">
-        {{ loading ? 'Enviando...' : 'Publicar Banner' }}
-      </button>
+
+      <div *ngIf="subAbaPaginaInicial === 'banners'" class="space-y-6 animate-fade-in">
+        <div class="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex items-start gap-3 shadow-inner">
+          <svg class="w-5 h-5 text-blue-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <div class="flex flex-col">
+            <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">Dimensões Recomendadas</span>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+              Para que o banner cubra toda a largura da tela sem distorções no layout principal, utilize o tamanho padrão de exatamente <strong>1920 x 600 pixels</strong> (Proporção horizontal larga 16:5).
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-slate-800/40 border border-slate-700 p-5 rounded-2xl space-y-4">
+          <input [(ngModel)]="novoBanner.title" type="text" placeholder="Título" class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm w-full placeholder-slate-600 focus:border-blue-500 transition-colors">
+          <input [(ngModel)]="novoBanner.subtitle" type="text" placeholder="Subtítulo" class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm w-full placeholder-slate-600 focus:border-blue-500 transition-colors">
+          <div class="flex flex-col space-y-2">
+            <label class="text-xs uppercase font-bold text-slate-400">Imagem do Banner</label>
+            <input type="file" (change)="onFileSelected($event)" class="block w-full text-sm text-slate-400 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-bold file:uppercase file:bg-slate-700 file:text-white file:cursor-pointer hover:file:bg-slate-600 transition-all">
+          </div>
+          <button (click)="salvar()" [disabled]="loading" class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-600 text-white py-4 rounded-2xl uppercase text-sm font-bold shadow-lg transition-all">
+            {{ loading ? 'Enviando...' : 'Publicar Banner' }}
+          </button>
+        </div>
+
+        <div class="pt-6 border-t border-slate-700/60 space-y-4">
+          <h4 class="text-xs uppercase font-bold text-slate-400 tracking-widest ml-1">Banners Ativos no Sistema</h4>
+          
+          <div *ngIf="(banners$ | async)?.length === 0" class="text-center py-8 text-slate-500 text-sm border border-dashed border-slate-700 rounded-2xl">
+            Nenhum banner cadastrado no Storage até o momento.
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div *ngFor="let banner of banners$ | async" class="bg-slate-900/60 border border-slate-700 rounded-2xl overflow-hidden flex flex-col group relative hover:border-slate-500 transition-all shadow-sm">
+              <div class="w-full h-32 bg-slate-950 overflow-hidden relative flex items-center justify-center border-b border-slate-800">
+                <img *ngIf="banner.imageUrl" [src]="banner.imageUrl" class="w-full h-full object-cover">
+                <button (click)="excluirBanner(banner.id)" class="absolute top-2 right-2 bg-red-600 hover:bg-red-500 text-white p-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-150 shadow-lg outline-none">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="p-3 bg-slate-900/40">
+                <h5 class="text-xs font-bold text-white truncate" *ngIf="banner.title">{{ banner.title }}</h5>
+                <p class="text-[11px] text-slate-400 truncate" *ngIf="banner.subtitle">{{ banner.subtitle }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="subAbaPaginaInicial === 'icones'" class="space-y-4 animate-fade-in">
+        <div class="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex items-start gap-3 shadow-inner">
+          <svg class="w-5 h-5 text-blue-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <div class="flex flex-col">
+            <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">Gerenciamento de Ícones</span>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+              Substitua os ícones das categorias exibidas na página inicial do site. Escolha arquivos de imagem de preferência no formato PNG ou JPG quadrado.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div *ngFor="let catNome of listaCategorias" class="bg-slate-800/40 border border-slate-700 rounded-2xl p-4 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 min-w-0">
+              <div class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-700 overflow-hidden flex items-center justify-center shrink-0">
+                <img *ngIf="obterImagemCategoria(categorias$ | async, catNome)" [src]="obterImagemCategoria(categorias$ | async, catNome)" class="w-full h-full object-cover">
+                <svg *ngIf="!obterImagemCategoria(categorias$ | async, catNome)" class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <div class="min-w-0">
+                <span class="text-sm font-bold text-white block truncate">{{ catNome }}</span>
+                <span class="text-[10px] text-slate-500 block uppercase tracking-wider mt-0.5">
+                  {{ obterImagemCategoria(categorias$ | async, catNome) ? 'Ícone Personalizado' : 'Usando Padrão (Código)' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="relative shrink-0">
+              <input type="file" (change)="alterarImagemCategoria(catNome, $event)" [disabled]="loading" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+              <button class="bg-slate-700 hover:bg-slate-600 disabled:bg-slate-800 text-white px-3 py-2 rounded-xl text-xs font-bold uppercase transition-colors relative z-0">
+                Alterar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ========================================== -->

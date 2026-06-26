@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, doc, deleteDoc, collectionData, setDoc } from '@angular/fire/firestore';
 import { BoloService } from '../services/bolo';
 import { Observable, BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, debounceTime } from 'rxjs/operators';
@@ -96,6 +96,9 @@ export class AdminComponent implements OnInit {
   bolos$!: Observable<any[]>; // Escuta o acervo genérico
   bolosFiltrados$!: Observable<any[]>; // Escuta o acervo pós-filtro
   suportes$!: Observable<any[]>;
+  banners$!: Observable<any[]>;
+  categorias$!: Observable<any[]>;
+  subAbaPaginaInicial: 'banners' | 'icones' = 'banners';
 
   // Controle de Busca Reativa (Acervo)
   termoBusca$ = new BehaviorSubject<string>('');
@@ -308,6 +311,12 @@ export class AdminComponent implements OnInit {
     
     // Filtra cirurgicamente os suportes a partir da coleção raiz
     this.suportes$ = this.bolos$.pipe(map(bolos => bolos.filter(b => b.categoria === 'Suportes e Boleiras')));
+
+    // Escuta em tempo real a listagem de banners através do seu service de forma tipada
+    this.banners$ = this.boloService.getBanners();
+
+    // Inicializa a escuta reativa da coleção de ícones customizados das categorias
+    this.categorias$ = collectionData(collection(this.firestore, 'categorias'), { idField: 'id' });
 
     // Alimenta uma cópia síncrona do catálogo para buscas ultrarrápidas no modal de PDV
     this.bolos$.subscribe(b => this.todosOsBolos = b);
@@ -967,6 +976,47 @@ Criciúma/SC, ${new Date().toLocaleDateString("pt-BR")}.`;
   async excluirOrcamento(id: string) {
     if (confirm("Deseja remover este pedido de orçamento?")) {
       await this.boloService.excluirOrcamento(id);
+    }
+  }
+
+  async excluirBanner(id: string) {
+    if (confirm("Deseja realmente remover este banner do site?")) {
+      this.loading = true;
+      try {
+        await this.boloService.excluirBanner(id);
+        alert("Banner removido com sucesso!");
+      } catch (error) {
+        console.error("Erro ao excluir banner:", error);
+        alert("Falha ao excluir o banner.");
+      } finally {
+        this.loading = false;
+      }
+    }
+  }
+
+  obterImagemCategoria(categorias: any[] | null, nome: string): string {
+    if (!categorias) return '';
+    const cat = categorias.find(c => c.id === nome || c.nome === nome);
+    return cat ? cat.imagemUrl : '';
+  }
+
+  async alterarImagemCategoria(categoriaNome: string, event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.loading = true;
+    try {
+      const url = await this.boloService.uploadImagemAvulsa(file);
+      await setDoc(doc(this.firestore, `categorias/${categoriaNome}`), {
+        nome: categoriaNome,
+        imagemUrl: url
+      }, { merge: true });
+      alert(`Ícone da categoria "${categoriaNome}" atualizado com sucesso!`);
+    } catch (error) {
+      console.error('Erro ao atualizar imagem da categoria:', error);
+      alert('Erro ao atualizar imagem da categoria.');
+    } finally {
+      this.loading = false;
     }
   }
 
