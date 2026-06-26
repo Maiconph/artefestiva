@@ -1,0 +1,193 @@
+<div class="min-h-screen bg-slate-900 p-2 sm:p-4 flex flex-col items-center justify-center font-sans text-slate-200">
+  
+  <div *ngIf="carregando" class="flex flex-col items-center justify-center animate-pulse">
+    <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+    <p class="text-sm font-bold uppercase text-slate-400 tracking-widest">Buscando Contrato...</p>
+  </div>
+
+  <div *ngIf="!carregando && !locacao" class="max-w-md w-full bg-slate-800 rounded-3xl p-8 text-center border border-red-500/30">
+    <p class="text-red-400 font-bold mb-2">Contrato não encontrado.</p>
+    <p class="text-xs text-slate-400">Verifique se o link enviado está correto.</p>
+  </div>
+
+  <div *ngIf="!carregando && locacao" class="max-w-md w-full bg-slate-800 rounded-[2rem] sm:rounded-3xl shadow-2xl border border-slate-700 p-5 sm:p-8 relative overflow-hidden">
+    
+    <div class="text-center mb-8 border-b border-slate-700 pb-6">
+      <h2 class="text-xl font-black text-white tracking-tight uppercase">Arte Festiva Ateliê</h2>
+      <p class="text-xs text-blue-400 font-bold uppercase tracking-widest mt-1">Validação de Contrato</p>
+    </div>
+
+    <div *ngIf="locacao.status === 'contrato_assinado'" class="text-center py-10 animate-fade-in">
+      <div class="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+      <h3 class="text-xl font-bold text-white mb-2">Contrato Assinado!</h3>
+      <p class="text-sm text-slate-400">Sua assinatura foi registrada com sucesso. Você receberá o documento PDF oficial em instantes no seu WhatsApp.</p>
+    </div>
+
+    <div *ngIf="locacao.status !== 'contrato_assinado'">
+      
+      <div class="bg-slate-900/50 rounded-xl sm:rounded-2xl p-4 sm:p-5 mb-6 border border-slate-700/50 space-y-3 sm:space-y-4">
+        <div class="flex justify-between items-center">
+          <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Locatário</span>
+          <span class="text-sm font-bold text-white">{{ locacao.cliente?.nome }}</span>
+        </div>
+        <div class="flex justify-between items-start">
+          <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider mt-0.5">Peça(s)</span>
+          <div class="flex flex-col items-end gap-1">
+            <span *ngIf="!locacao.bolos" class="text-sm font-bold text-slate-300">{{ locacao.nomeBolo }}</span>
+            <span *ngFor="let b of locacao.bolos" class="text-[11px] font-bold text-slate-300 bg-slate-800 px-2 py-1 rounded border border-slate-700 uppercase tracking-wider">{{ b.nomeBolo || b.nome }}</span>
+          </div>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Logística</span>
+          <span class="text-xs font-bold px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700 uppercase">
+            {{ locacao.tipoLogistica === 'entrega' ? 'Entrega no Local' : 'Retirada no Ateliê' }}
+          </span>
+        </div>
+        <div class="flex justify-between items-center pt-3 border-t border-slate-700/50">
+          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total do Contrato</span>
+          <span class="text-sm font-bold text-slate-300">R$ {{ locacao.valorTotalAcordado?.toFixed(2) }}</span>
+        </div>
+        
+        <div class="flex justify-between items-center pt-2">
+          <span class="text-[10px] uppercase font-bold text-green-500 tracking-wider">Sinal Pago (Checkout)</span>
+          <span class="text-sm font-bold text-green-400">R$ {{ ((locacao.valorTotalAcordado || 0) - (locacao.valorPendente || 0)).toFixed(2) }}</span>
+        </div>
+        
+        <div *ngIf="locacao.valorPendente > 0" class="flex justify-between items-center pt-3 border-t border-slate-700/50 mt-2">
+          <span class="text-xs uppercase font-bold text-orange-400">Saldo Restante na Entrega</span>
+          <span class="text-lg font-black text-orange-400">R$ {{ locacao.valorPendente?.toFixed(2) }}</span>
+        </div>
+      </div>
+
+      <label class="flex items-start gap-3 mb-6 sm:mb-8 p-3 -mx-3 rounded-xl hover:bg-slate-900/30 active:bg-slate-900/50 transition-colors cursor-pointer group select-none">
+        <div class="mt-0.5 shrink-0">
+          <input type="checkbox" [(ngModel)]="aceitouTermos" class="w-5 h-5 rounded border-slate-600 bg-slate-900 text-blue-600 focus:ring-blue-600 focus:ring-offset-slate-900">
+        </div>
+        <span class="text-xs sm:text-sm text-slate-400 leading-relaxed group-hover:text-slate-300 transition-colors">
+          Desejo ler e aceitar o contrato de locação com as regras de devolução, conservação da peça e possíveis taxas de reposição.
+        </span>
+      </label>
+
+      <!-- ========================================== -->
+      <!-- SESSÃO: LEITURA DO CONTRATO OBRIGATÓRIA    -->
+      <!-- ========================================== -->
+      <div *ngIf="aceitouTermos" class="animate-fade-in mb-8">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl p-5 md:p-6 text-xs sm:text-sm text-slate-300 leading-relaxed max-h-[60vh] overflow-y-auto space-y-4 shadow-inner">
+          <h4 class="text-center font-bold text-white text-sm mb-4">CONTRATO DE LOCAÇÃO DE BOLO CENOGRÁFICO</h4>
+          
+          <p class="text-justify">Pelo presente instrumento particular, de um lado: GERUZA PERUCHI DA ROSA, inscrita no CNPJ nº 45.439.303/0001-43, com nome fantasia ARTE FESTIVA ATELIÊ, doravante denominada CONTRATADA.</p>
+          
+          <p class="text-justify">E de outro lado: <strong>{{ locacao.cliente?.nome | uppercase }}</strong>, CPF nº {{ locacao.cliente?.cpf || 'N/A' }}, residente e domiciliado(a) em {{ (locacao.cliente?.endereco || 'N/A') | uppercase }}, doravante denominado(a) CONTRATANTE.</p>
+          
+          <p class="font-bold text-white mt-4">CLÁUSULA 1 - DO OBJETO</p>
+          <p class="text-justify">1.1. O presente contrato tem por objeto a locação de itens decorativos de propriedade da LOCADORA, conforme especificação abaixo:<br>
+          Itens Locados:<br>
+          <ng-container *ngIf="!locacao.bolos">- {{ locacao.nomeBolo }}<br></ng-container>
+          <ng-container *ngIf="locacao.bolos"><span *ngFor="let b of locacao.bolos">- {{ b.nomeBolo || b.nome }} (Cód: {{ b.codigo || 'N/A' }})<br></span></ng-container>
+          Descrição: Peças decorativas em biscuit feitas manualmente.<br>
+          Data do Evento: {{ locacao.dataEvento | date:'dd/MM/yyyy' }}</p>
+          <p class="text-justify">1.2. Os itens destinam-se exclusivamente à finalidade decorativa, sendo expressamente proibido uso diverso, consumo, modificação estrutural ou qualquer alteração sem autorização da CONTRATADA.</p>
+
+          <p class="font-bold text-white mt-4">CLÁUSULA 2 - DO PRAZO E LOGÍSTICA</p>
+          <p class="text-justify">Modalidade: {{ locacao.tipoLogistica === 'entrega' ? 'ENTREGA NO LOCAL' : 'RETIRADA NO ATELIÊ' }}<br>
+          <ng-container *ngIf="locacao.tipoLogistica === 'entrega'">Endereço de Entrega: {{ locacao.enderecoEntrega }}<br></ng-container>
+          <ng-container *ngIf="locacao.tipoLogistica !== 'entrega'">Data de retirada: {{ locacao.dataRetiradaAcordada?.split('-')?.reverse()?.join('/') || 'N/A' }}<br></ng-container>
+          Data de devolução: {{ locacao.dataDevolucaoAcordada?.split('-')?.reverse()?.join('/') || 'N/A' }}<br>
+          Horário ajustado: {{ locacao.horarioRetirada || 'A combinar' }}</p>
+          <p class="text-justify">2.1. {{ locacao.tipoLogistica === 'entrega' ? 'A entrega será realizada pela CONTRATADA no endereço especificado acima mediante taxa de deslocamento acordada.' : 'A retirada e devolução ocorrerão no endereço da CONTRATADA, sendo responsabilidade exclusiva do CONTRATANTE.' }}<br>
+          2.2. A não devolução na data estipulada implicará multa de 10% sobre o valor total da locação, sem prejuízo de outras penalidades previstas neste contrato.</p>
+
+          <p class="font-bold text-white mt-4">CLÁUSULA 3 - DO VALOR E DO PAGAMENTO</p>
+          <p class="text-justify">3.1. O valor total do serviço é de R$ {{ locacao.valorTotalAcordado?.toFixed(2) }} {{ locacao.tipoLogistica === 'entrega' ? '(Incluso R$ ' + locacao.valorEntrega?.toFixed(2) + ' referentes à taxa de entrega)' : '' }}<br>
+          3.2. O pagamento será realizado da seguinte forma:<br>
+          - R$ {{ (locacao.valorSinalAcordado || locacao.valorSinalPago || 0).toFixed(2) }} a título de sinal/reserva, no ato do agendamento;<br>
+          - R$ {{ locacao.valorPendente?.toFixed(2) }} na data da retirada/entrega do item locado.</p>
+          <p class="text-justify">3.3. A reserva somente será confirmada mediante o pagamento do sinal.<br>
+          3.4. O não pagamento da parcela final na data da retirada implicará rescisão automática do contrato, com retenção do sinal pago.</p>
+
+          <p class="font-bold text-white mt-4">CLÁUSULA 4 - DAS OBRIGAÇÕES DA CONTRATADA</p>
+          <p class="text-justify">4.1. Entregar o(s) item(ns) locado(s) na data ajustada, em perfeito estado de conservação e limpeza.<br>
+          4.2. Prestar informações necessárias quanto ao correto manuseio e conservação do material.<br>
+          4.3. Disponibilizar item compatível com o contratado, conforme especificação constante neste instrumento.</p>
+
+          <p class="font-bold text-white mt-4">CLÁUSULA 5 - DAS OBRIGAÇÕES DO CONTRATANTE</p>
+          <p class="text-justify">5.1. Retirar e devolver os itens nas datas ajustadas.<br>
+          5.2. Efetuar o pagamento integral conforme cláusula 3.<br>
+          5.3. Utilizar o material exclusivamente para fins decorativos, comprometendo-se a não aplicar cola, fita permanente, tinta, água ou qualquer substância que possa danificar a peça, bem como a não realizar alterações estruturais ou adaptações sem autorização.<br>
+          5.4. Manter o item em perfeito estado durante o período de locação.<br>
+          5.5. Devolver o material nas mesmas condições em que foi recebido.<br>
+          5.6. Responsabilizar-se por qualquer dano, perda, extravio ou avaria, comprometendo-se a ressarcir integralmente o valor correspondente.</p>
+
+          <p class="font-bold text-white mt-4">CLÁUSULA 6 - DO USO, CONSERVAÇÃO E DEVOLUÇÃO DO MATERIAL LOCADO</p>
+          <p class="text-justify">6.1. O CONTRATANTE declara receber o material em perfeito estado.<br>
+          6.2. Eventuais avarias serão avaliadas pela CONTRATADA, que apresentará orçamento para reparo ou substituição.<br>
+          6.3. Em caso de perda total ou não devolução, o LOCATÁRIO deverá ressarcir o valor integral das peças.<br>
+          Valor de reposição: R$ 450,00</p>
+
+          <p class="font-bold text-white mt-4">CLÁUSULA 7 - DA DESISTÊNCIA</p>
+          <p class="text-justify">7.1. Em caso de desistência após a confirmação da reserva, o CONTRATANTE deverá pagar 50% do valor total da locação, correspondente aos custos operacionais de higienização, adaptação, bloqueio de agenda e montagem.<br>
+          7.2. Caso o valor pago seja inferior a 50%, deverá complementar até atingir esse percentual.</p>
+
+          <p class="font-bold text-white mt-4">CLÁUSULA 8 - DA RESCISÃO</p>
+          <p class="text-justify">8.1. O descumprimento contratual por qualquer das partes poderá ensejar rescisão imediata, respondendo a parte inadimplente por eventuais perdas e danos.</p>
+
+          <p class="font-bold text-white mt-4">CLÁUSULA 9 - DA BOA-FÉ E CONDUTA</p>
+          <p class="text-justify">9.1. As partes comprometem-se a agir com boa-fé, lealdade e cooperação, observando os princípios contratuais previstos na legislação civil.<br>
+          9.2. Eventuais situações não previstas serão resolvidas de comum acordo, sempre buscando equilíbrio e razoabilidade.</p>
+
+          <p class="font-bold text-white mt-4">CLÁUSULA 10 - DISPOSIÇÕES GERAIS</p>
+          <p class="text-justify">10.1. Este contrato possui força executiva entre as partes.<br>
+          10.2. Fica eleito o foro da Comarca de Criciúma/SC para dirimir quaisquer controvérsias oriundas deste contrato.</p>
+        </div>
+        
+        <div class="mt-4 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+          <p class="text-xs text-blue-300 font-bold text-center uppercase tracking-wider">Eu li e concordo plenamente com as cláusulas do contrato acima.</p>
+        </div>
+      </div>
+
+      <button 
+        *ngIf="aceitouTermos"
+        (click)="abrirModoAssinatura()" 
+        [disabled]="salvando" 
+        class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 disabled:text-slate-500 text-white py-4 rounded-2xl text-sm font-bold uppercase tracking-wider shadow-lg transition-all outline-none animate-fade-in">
+        {{ salvando ? 'Processando...' : 'Assinar Contrato' }}
+      </button>
+
+    </div>
+  </div>
+
+  <div *ngIf="modoAssinaturaAtivo" class="fixed inset-0 z-[200] bg-slate-50 flex items-center justify-center touch-none overscroll-none animate-fade-in">
+    
+    <div class="absolute top-4 left-0 right-0 text-center pointer-events-none portrait:block landscape:hidden transition-opacity z-20">
+       <span class="bg-slate-900/70 text-white text-[10px] uppercase font-bold px-4 py-2 rounded-full tracking-wider shadow-lg">Gire o celular na horizontal</span>
+    </div>
+
+    <canvas 
+      #canvasElement 
+      class="w-full h-full cursor-crosshair touch-none absolute inset-0 z-10"
+      (mousedown)="iniciarDesenho($event)"
+      (mousemove)="desenhar($event)"
+      (mouseup)="pararDesenho()"
+      (mouseleave)="pararDesenho()"
+      (touchstart)="iniciarDesenho($event)"
+      (touchmove)="desenhar($event)"
+      (touchend)="pararDesenho()">
+    </canvas>
+
+    <div *ngIf="assinaturaVazia" class="absolute inset-0 flex items-center justify-center text-slate-300/60 text-2xl sm:text-4xl font-black uppercase tracking-widest pointer-events-none z-0">
+      Assine Aqui
+    </div>
+
+    <div class="absolute bottom-6 right-6 flex gap-4 z-30">
+       <button (click)="limparCanvas()" class="bg-white border-2 border-red-500 text-red-500 hover:bg-red-50 px-6 py-4 rounded-2xl text-xs font-bold uppercase tracking-wider shadow-2xl outline-none transition-all active:scale-95 flex items-center justify-center">
+         Limpar Traço
+       </button>
+       <button (click)="concluirEAssinar()" [disabled]="assinaturaVazia" class="bg-blue-600 hover:bg-blue-500 disabled:bg-slate-400 text-white px-8 py-4 rounded-2xl text-xs font-bold uppercase tracking-wider shadow-2xl outline-none transition-all active:scale-95 flex items-center justify-center">
+         Concluir
+       </button>
+    </div>
+  </div>
+
+</div>

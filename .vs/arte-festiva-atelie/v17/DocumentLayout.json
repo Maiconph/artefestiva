@@ -1,0 +1,389 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\admin\\admin.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\admin\\admin.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\bolo-detalhe\\bolo-detalhe.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\bolo-detalhe\\bolo-detalhe.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\home\\home.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\home\\home.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\bolo-detalhe\\bolo-detalhe.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\bolo-detalhe\\bolo-detalhe.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\home\\home.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\home\\home.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\admin\\admin.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\admin\\admin.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\orcamento\\orcamento.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\orcamento\\orcamento.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\services\\bolo.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\services\\bolo.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\angular.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:angular.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\orcamento\\orcamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\orcamento\\orcamento.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\admin\\admin.html||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\admin\\admin.html||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\app.routes.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\app.routes.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\app.config.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\app.config.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\app.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\app.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\main.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\main.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\app.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\app.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\environments\\environment.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\environments\\environment.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\styles.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\styles.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\tailwind.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:tailwind.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\postcss.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:postcss.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\arte-festiva-atelie.esproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:arte-festiva-atelie.esproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|c:\\users\\maico\\desktop\\arte-festiva-atelie\\src\\app\\bolo-detalhe\\bolo-detalhe.ts||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{F384CCCF-B23A-447F-9750-E55C6EF44950}|arte-festiva-atelie.esproj|solutionrelative:src\\app\\bolo-detalhe\\bolo-detalhe.ts||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "bolo-detalhe.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\bolo-detalhe\\bolo-detalhe.ts",
+              "RelativeDocumentMoniker": "src\\app\\bolo-detalhe\\bolo-detalhe.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\bolo-detalhe\\bolo-detalhe.ts",
+              "RelativeToolTip": "src\\app\\bolo-detalhe\\bolo-detalhe.ts",
+              "ViewState": "AQIAAFsAAAAAAAAAAAAawHwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-15T20:40:33.624Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "admin.html",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\admin\\admin.html",
+              "RelativeDocumentMoniker": "src\\app\\admin\\admin.html",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\admin\\admin.html",
+              "RelativeToolTip": "src\\app\\admin\\admin.html",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAkwCYAAABgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-15T11:41:52.611Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "orcamento.html",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\orcamento\\orcamento.html",
+              "RelativeDocumentMoniker": "src\\app\\orcamento\\orcamento.html",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\orcamento\\orcamento.html",
+              "RelativeToolTip": "src\\app\\orcamento\\orcamento.html",
+              "ViewState": "AQIAACMAAAAAAAAAAAAcwEEAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-14T19:06:27.813Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "bolo-detalhe.html",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\bolo-detalhe\\bolo-detalhe.html",
+              "RelativeDocumentMoniker": "src\\app\\bolo-detalhe\\bolo-detalhe.html",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\bolo-detalhe\\bolo-detalhe.html",
+              "RelativeToolTip": "src\\app\\bolo-detalhe\\bolo-detalhe.html",
+              "ViewState": "AQIAAFEAAAAAAAAAAAAAAGwAAACIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-14T16:50:43.385Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "home.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\home\\home.ts",
+              "RelativeDocumentMoniker": "src\\app\\home\\home.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\home\\home.ts",
+              "RelativeToolTip": "src\\app\\home\\home.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACkAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T12:33:30.462Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "home.html",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\home\\home.html",
+              "RelativeDocumentMoniker": "src\\app\\home\\home.html",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\home\\home.html",
+              "RelativeToolTip": "src\\app\\home\\home.html",
+              "ViewState": "AQIAADoAAAAAAAAAAAAowEYAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-14T12:31:02.259Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "admin.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\admin\\admin.ts",
+              "RelativeDocumentMoniker": "src\\app\\admin\\admin.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\admin\\admin.ts",
+              "RelativeToolTip": "src\\app\\admin\\admin.ts",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAmwEkAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T11:55:55.569Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "admin.html",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\admin\\admin.html",
+              "RelativeDocumentMoniker": "src\\app\\admin\\admin.html",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\admin\\admin.html",
+              "RelativeToolTip": "src\\app\\admin\\admin.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAMsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-14T12:27:40.283Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "app.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\app.ts",
+              "RelativeDocumentMoniker": "src\\app\\app.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\app.ts",
+              "RelativeToolTip": "src\\app\\app.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T03:31:14.297Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "app.html",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\app.html",
+              "RelativeDocumentMoniker": "src\\app\\app.html",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\app.html",
+              "RelativeToolTip": "src\\app\\app.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-04-14T02:16:51.129Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "bolo.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\services\\bolo.ts",
+              "RelativeDocumentMoniker": "src\\app\\services\\bolo.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\services\\bolo.ts",
+              "RelativeToolTip": "src\\app\\services\\bolo.ts",
+              "ViewState": "AQIAAIAAAAAAAAAAAAAmwJcAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T03:44:37.767Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "angular.json",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\angular.json",
+              "RelativeDocumentMoniker": "angular.json",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\angular.json",
+              "RelativeToolTip": "angular.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACUAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-14T11:37:17.303Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "orcamento.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\orcamento\\orcamento.ts",
+              "RelativeDocumentMoniker": "src\\app\\orcamento\\orcamento.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\orcamento\\orcamento.ts",
+              "RelativeToolTip": "src\\app\\orcamento\\orcamento.ts",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAADkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T19:06:09.097Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "bolo-detalhe.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\bolo-detalhe\\bolo-detalhe.ts",
+              "RelativeDocumentMoniker": "src\\app\\bolo-detalhe\\bolo-detalhe.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\bolo-detalhe\\bolo-detalhe.ts",
+              "RelativeToolTip": "src\\app\\bolo-detalhe\\bolo-detalhe.ts",
+              "ViewState": "AQIAAEwAAAAAAAAAAAAAAHoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T16:50:08.507Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "app.routes.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\app.routes.ts",
+              "RelativeDocumentMoniker": "src\\app\\app.routes.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\app.routes.ts",
+              "RelativeToolTip": "src\\app\\app.routes.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T03:30:12.073Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "app.config.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\app.config.ts",
+              "RelativeDocumentMoniker": "src\\app\\app.config.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\app\\app.config.ts",
+              "RelativeToolTip": "src\\app\\app.config.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T02:37:53.909Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "package.json",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\package.json",
+              "RelativeDocumentMoniker": "package.json",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\package.json",
+              "RelativeToolTip": "package.json",
+              "ViewState": "AQIAAA4AAAAAAAAAAADwvzQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-14T11:43:50.918Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "main.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\main.ts",
+              "RelativeDocumentMoniker": "src\\main.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\main.ts",
+              "RelativeToolTip": "src\\main.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T03:31:27.587Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "arte-festiva-atelie.esproj",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\arte-festiva-atelie.esproj",
+              "RelativeDocumentMoniker": "arte-festiva-atelie.esproj",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\arte-festiva-atelie.esproj",
+              "RelativeToolTip": "arte-festiva-atelie.esproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-04-14T02:19:06.068Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "postcss.config.js",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\postcss.config.js",
+              "RelativeDocumentMoniker": "postcss.config.js",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\postcss.config.js",
+              "RelativeToolTip": "postcss.config.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-14T02:21:19.049Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "environment.ts",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\environments\\environment.ts",
+              "RelativeDocumentMoniker": "src\\environments\\environment.ts",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\environments\\environment.ts",
+              "RelativeToolTip": "src\\environments\\environment.ts",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2026-04-14T02:36:07.31Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "styles.css",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\styles.css",
+              "RelativeDocumentMoniker": "src\\styles.css",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\src\\styles.css",
+              "RelativeToolTip": "src\\styles.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-14T02:15:58.384Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "tailwind.config.js",
+              "DocumentMoniker": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\tailwind.config.js",
+              "RelativeDocumentMoniker": "tailwind.config.js",
+              "ToolTip": "C:\\Users\\maico\\Desktop\\arte-festiva-atelie\\tailwind.config.js",
+              "RelativeToolTip": "tailwind.config.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-14T02:15:00.75Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

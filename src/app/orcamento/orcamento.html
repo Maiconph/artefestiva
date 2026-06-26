@@ -1,0 +1,81 @@
+<div class="min-h-screen bg-arte-creme/10 pb-20">
+
+  <nav class="p-6 bg-white border-b border-gray-50 flex items-center justify-between sticky top-0 z-50">
+    <button (click)="voltar()" class="text-[10px] uppercase font-bold tracking-widest text-gray-400 flex items-center">
+      <span class="mr-2 text-lg">←</span> Catálogo
+    </button>
+    <span class="text-[9px] uppercase font-bold tracking-[0.3em] text-arte-rosa">Pedido de Orçamento</span>
+  </nav>
+
+  <div class="max-w-2xl mx-auto px-6 py-12">
+
+    <div class="text-center mb-12" *ngIf="!enviado">
+      <h1 class="text-4xl font-serif text-arte-texto italic mb-4">Projeto Personalizado</h1>
+      <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed">
+        Conte-nos a sua ideia e vamos criar um bolo único para o seu momento especial.
+      </p>
+    </div>
+
+    <div *ngIf="enviado" class="bg-white rounded-[2.5rem] p-12 text-center shadow-xl animate-fade-in">
+      <div class="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-8 text-3xl">✓</div>
+      <h2 class="text-2xl font-serif text-arte-texto italic mb-4">Pedido Enviado!</h2>
+      <p class="text-sm text-gray-400 leading-relaxed mb-10">
+        A equipe da Arte Festiva recebeu os seus detalhes. Entraremos em contacto pelo WhatsApp em breve.
+      </p>
+      <button (click)="voltar()" class="bg-arte-texto text-white px-10 py-4 rounded-full uppercase text-[10px] font-bold tracking-widest hover:bg-black transition">
+        Voltar para o Início
+      </button>
+    </div>
+
+    <div *ngIf="!enviado" class="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-arte-pessego/20">
+      <div class="space-y-8">
+
+        <div class="space-y-4">
+          <label class="text-[10px] uppercase font-bold tracking-widest text-arte-rosa">Dados de Contacto</label>
+          <input [(ngModel)]="pedido.nome" type="text" placeholder="Seu Nome Completo *" class="w-full border-b border-gray-100 py-4 bg-transparent outline-none focus:border-arte-rosa text-sm transition-all">
+          <input [(ngModel)]="pedido.whatsapp" type="text" placeholder="WhatsApp (com DDD) *" class="w-full border-b border-gray-100 py-4 bg-transparent outline-none focus:border-arte-rosa text-sm transition-all">
+        </div>
+
+        <!-- ========================================== -->
+        <!-- SESSÃO: DETALHES DO EVENTO                 -->
+        <!-- ========================================== -->
+        <div class="space-y-4 pt-4">
+          <label class="text-[10px] uppercase font-bold tracking-widest text-arte-rosa">Detalhes do Evento</label>
+          <div class="flex flex-col space-y-2">
+            <span class="text-[9px] text-gray-400 uppercase">Data do Evento *</span>
+            <input [(ngModel)]="pedido.dataEvento" type="date" class="w-full bg-gray-50 rounded-xl px-4 py-3 outline-none focus:ring-1 ring-arte-rosa text-sm">
+          </div>
+        </div>
+
+        <div class="space-y-4 pt-4">
+          <label class="text-[10px] uppercase font-bold tracking-widest text-arte-rosa">O Bolo dos Sonhos</label>
+          <input [(ngModel)]="pedido.tema" type="text" placeholder="Qual o tema da festa? (Ex: Jardim Encantado)" class="w-full border-b border-gray-100 py-4 bg-transparent outline-none focus:border-arte-rosa text-sm">
+
+          <div class="flex flex-col space-y-2">
+            <span class="text-[9px] text-gray-400 uppercase">Quantidade de Andares</span>
+            <select [(ngModel)]="pedido.andares" class="w-full bg-gray-50 rounded-xl px-4 py-3 outline-none focus:ring-1 ring-arte-rosa text-sm">
+              <option value="1">1 Andar</option>
+              <option value="2">2 Andares</option>
+              <option value="3">3 Andares</option>
+              <option value="4">4 Andares</option>
+              <option value="5+">5 ou mais andares</option>
+              <option value="Topo de Bolo / Vela">Apenas Topo de Bolo / Vela Personalizada</option>
+            </select>
+          </div>
+
+          <textarea [(ngModel)]="pedido.observacoes" rows="4" placeholder="Descreva detalhes como cores, texturas ou elementos que não podem faltar..." class="w-full bg-gray-50 rounded-2xl p-6 outline-none focus:ring-1 ring-arte-rosa text-sm mt-4"></textarea>
+        </div>
+
+        <button (click)="enviarOrcamento()" [disabled]="loading"
+                class="w-full bg-arte-texto text-white py-6 rounded-full uppercase text-[10px] font-bold tracking-[0.3em] shadow-2xl hover:bg-black transition-all disabled:opacity-50">
+          {{ loading ? 'Enviando Pedido...' : 'Solicitar Orçamento Personalizado' }}
+        </button>
+
+        <p class="text-center text-[9px] text-gray-300 uppercase tracking-widest">
+          * Campos obrigatórios
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>

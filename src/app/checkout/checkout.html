@@ -1,0 +1,99 @@
+<div class="min-h-screen bg-slate-900 p-2 sm:p-4 flex flex-col items-center justify-center font-sans text-slate-200">
+  <div *ngIf="carregando" class="flex flex-col items-center justify-center animate-pulse">
+  <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+  <p class="text-sm font-bold uppercase text-slate-400 tracking-widest">Iniciando Checkout...</p>
+</div>
+
+<div *ngIf="!carregando && !locacao" class="max-w-md w-full bg-slate-800 rounded-[2rem] sm:rounded-3xl p-6 sm:p-8 text-center border border-red-500/30 animate-fade-in">
+  <div class="w-12 h-12 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center mx-auto mb-4">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+  </div>
+  <h3 class="text-red-400 font-bold text-lg mb-2">Locação não encontrada</h3>
+  <p class="text-xs text-slate-400 leading-relaxed">O ID fornecido na URL não corresponde a nenhum documento ativo na coleção do banco de dados. Certifique-se de que o documento existe no Firestore.</p>
+</div>
+
+  <div *ngIf="!carregando && locacao && mostrarModalCancelamento" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[100] flex items-end sm:items-center justify-center sm:p-4">
+     <div class="bg-slate-800 border-t sm:border border-slate-700 rounded-t-[2.5rem] sm:rounded-3xl p-6 sm:p-8 max-w-md w-full text-center shadow-2xl pb-10 sm:pb-8 animate-fade-in">
+        <div class="w-12 h-1.5 bg-slate-700 rounded-full mx-auto mb-6 sm:hidden"></div>
+        <h3 class="text-2xl font-black text-white mb-4">Deseja prosseguir?</h3>
+        <p class="text-slate-400 text-sm mb-4">Você está prestes a confirmar o aluguel do modelo <strong class="text-blue-400">{{ locacao.nomeBolo }}</strong>. Deseja prosseguir para o pagamento e assinatura?</p>
+        
+        <div class="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 mb-8 flex items-start text-left gap-3 shadow-inner">
+          <svg class="w-5 h-5 text-orange-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <p class="text-xs text-orange-300 leading-relaxed font-semibold">Atenção: A partir deste momento, a peça ficará bloqueada para você por <strong class="text-orange-400 uppercase">24 horas</strong>. Caso o pagamento não seja confirmado neste período, a reserva será cancelada e o bolo voltará para a vitrine.</p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+          <button (click)="aceitarContrato()" class="w-full bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-2xl text-sm font-bold uppercase tracking-wider shadow-lg transition-all outline-none">Sim, Quero Alugar</button>
+          <button (click)="recusarECancelar()" [disabled]="cancelando" class="w-full bg-transparent border border-red-500/30 text-red-400 hover:bg-red-500/10 py-4 rounded-2xl text-sm font-bold uppercase tracking-wider transition-all outline-none">
+            {{ cancelando ? 'Processando...' : 'Não, Quero Cancelar' }}
+          </button>
+        </div>
+     </div>
+  </div>
+
+  <div *ngIf="!carregando && locacao && !mostrarModalCancelamento && locacao.status !== 'cancelado'" class="max-w-md w-full bg-slate-800 rounded-[2rem] sm:rounded-3xl shadow-2xl border border-slate-700 p-5 sm:p-8 animate-fade-in">
+    <div class="text-center mb-8 border-b border-slate-700 pb-6">
+      <h2 class="text-xl font-black text-white tracking-tight uppercase">Pagamento</h2>
+      <p class="text-xs text-blue-400 font-bold uppercase tracking-widest mt-1">Sinal de Reserva</p>
+    </div>
+
+    <div class="bg-slate-900/50 rounded-2xl p-6 mb-6 border border-slate-700/50 flex flex-col items-center justify-center gap-2 shadow-inner text-center">
+      <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">Total a Pagar Hoje (Sinal)</span>
+      <span class="text-3xl font-black text-green-400 tracking-tight">R$ {{ locacao.valorSinalAcordado?.toFixed(2) }}</span>
+    </div>
+
+    <div class="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 mb-6 flex flex-col items-center text-center shadow-sm">
+      <div class="flex items-center gap-2 mb-2">
+        <svg class="w-4 h-4 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span class="text-[10px] uppercase font-bold text-orange-400 tracking-widest">Reserva Temporária Ativa</span>
+      </div>
+      <p class="text-xs text-orange-300 font-semibold">Efetue o pagamento em até <strong class="text-orange-400 uppercase">24 horas</strong> para garantir sua peça. Após esse prazo, a solicitação irá expirar.</p>
+    </div>
+
+    @if (metodoPagamento === 'asaas') {
+      <div class="bg-blue-900/20 border border-blue-500/30 rounded-2xl p-6 text-center mb-6">
+         <p class="text-sm text-slate-300 mb-4">Escaneie o QR Code ou use o Pix Copia e Cola para pagar a reserva.</p>
+         
+         <div *ngIf="gerandoPix" class="w-48 h-48 bg-slate-800 border border-slate-700 mx-auto rounded-xl flex flex-col items-center justify-center mb-4 shadow-md animate-pulse">
+            <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-2"></div>
+            <span class="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Gerando Cobrança...</span>
+         </div>
+
+         <div *ngIf="!gerandoPix && qrCodeBase64" class="w-48 h-48 bg-white mx-auto rounded-xl flex items-center justify-center mb-4 shadow-md overflow-hidden p-2">
+           <img [src]="qrCodeBase64" alt="QR Code Pix" class="w-full h-full object-contain pointer-events-none">
+         </div>
+
+         <button *ngIf="!gerandoPix && pixCopiaECola" (click)="copiarPix()" class="w-full bg-white/5 border border-blue-500/30 hover:bg-white/10 active:bg-blue-500/20 text-xs font-bold text-blue-400 uppercase tracking-widest py-3 rounded-xl outline-none transition-all flex items-center justify-center gap-2">
+           <svg *ngIf="!copiouPix" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+           <svg *ngIf="copiouPix" class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+           <span [ngClass]="{'text-green-400': copiouPix}">{{ copiouPix ? 'Código Copiado!' : 'Copiar Código Pix' }}</span>
+         </button>
+
+         <div *ngIf="!gerandoPix && qrCodeBase64" class="mt-6 pt-4 border-t border-slate-700/50 flex flex-col items-center justify-center animate-fade-in">
+            <div class="w-5 h-5 border-2 border-green-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">Aguardando confirmação do banco...<br>A página avançará sozinha.</span>
+         </div>
+      </div>
+    } @else {
+      <div class="bg-slate-900 border border-slate-700 rounded-2xl p-6 text-center mb-6 shadow-inner relative overflow-hidden">
+         <p class="text-sm text-slate-300 mb-4">Realize o PIX para a chave abaixo.</p>
+         <p class="font-mono text-lg text-white font-bold bg-slate-800 p-3 rounded-lg mb-2">45.439.303/0001-43</p>
+         <p class="text-xs text-slate-500 uppercase font-bold tracking-wider mb-6">CNPJ - Arte Festiva Ateliê</p>
+         
+         <div class="flex flex-col items-center justify-center border-t border-slate-700/50 pt-4">
+            <div class="w-5 h-5 border-2 border-green-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">Aguardando Gerusa confirmar<br>o recebimento manual.</span>
+         </div>
+      </div>
+    }
+  </div>
+
+  <div *ngIf="locacao?.status === 'cancelado'" class="max-w-md w-full bg-slate-800 rounded-[2rem] sm:rounded-3xl p-6 sm:p-8 text-center border border-red-500/30 animate-fade-in">
+    <div class="w-16 h-16 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center mx-auto mb-6">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </div>
+    <h3 class="text-red-400 text-xl font-bold mb-2">Reserva Cancelada</h3>
+    <p class="text-sm text-slate-400">Obrigado pelo seu tempo. O processo foi abortado e a peça retornará ao catálogo em breve.</p>
+  </div>
+</div>

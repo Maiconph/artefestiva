@@ -1,0 +1,272 @@
+<div *ngIf="bolo$ | async as bolo" class="min-h-screen bg-white pb-20">
+
+  <nav class="p-6 flex items-center justify-between border-b border-gray-50 sticky top-0 bg-white z-40">
+    <a routerLink="/" class="text-[10px] uppercase font-bold tracking-widest text-gray-400 flex items-center">
+      <span class="mr-2 text-lg">←</span> Voltar ao Catálogo
+    </a>
+    <span class="text-[9px] uppercase font-bold tracking-[0.3em] text-arte-rosa">Arte Festiva Ateliê</span>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 py-8">
+
+    <div class="space-y-6">
+      
+      <!-- Efeito de Fotografias Empilhadas na Mesa com Suporte a Swipe -->
+      <div class="relative aspect-[4/5] w-[88%] md:w-full mx-auto flex items-center justify-center group"
+           (touchstart)="onSwipeStart($event)" 
+           (touchend)="onSwipeEnd($event)">
+        
+        <div *ngFor="let img of todasImagens; let i = index"
+             (click)="interagirComImagem(i)"
+             class="absolute inset-0 w-full h-full rounded-[2.5rem] overflow-hidden transition-all duration-700 ease-out origin-bottom bg-gray-50 border-[6px] border-white group/carta"
+             [ngClass]="getEstiloImagem(i)">
+          <img [src]="img" class="w-full h-full object-cover">
+          <div *ngIf="i === imagemAtualIndex" class="absolute inset-0 bg-black/20 opacity-0 group-hover/carta:opacity-100 transition-opacity flex items-center justify-center cursor-zoom-in">
+            <svg class="w-12 h-12 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+          </div>
+        </div>
+
+        <!-- Controles da Galeria (Setas Flutuantes e Bolinhas) -->
+        <ng-container *ngIf="todasImagens.length > 1">
+          <!-- Seta Anterior (Oculta no Mobile) -->
+          <button (click)="imagemAnterior()" class="absolute left-2 md:-left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 backdrop-blur-md text-slate-800 opacity-0 group-hover:opacity-100 transition-all z-40 hidden md:flex items-center justify-center hover:bg-white shadow-xl hover:scale-110 outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          </button>
+          
+          <!-- Seta Próxima (Oculta no Mobile) -->
+          <button (click)="proximaImagem()" class="absolute right-2 md:-right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 backdrop-blur-md text-slate-800 opacity-0 group-hover:opacity-100 transition-all z-40 hidden md:flex items-center justify-center hover:bg-white shadow-xl hover:scale-110 outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+
+          <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-40">
+            <button *ngFor="let dot of todasImagens; let i = index" (click)="setImagem(i)"
+                    class="h-2 rounded-full transition-all duration-500 outline-none"
+                    [ngClass]="i === imagemAtualIndex ? 'bg-arte-rosa w-8 shadow-md' : 'bg-gray-300 w-2 hover:bg-gray-400'"></button>
+          </div>
+        </ng-container>
+
+      </div>
+
+      <div class="block p-8 border border-gray-100 rounded-[2rem] mt-12 relative z-50 bg-white">
+        <h4 class="text-[10px] uppercase font-bold tracking-widest text-gray-400 mb-4">Descrição Técnica</h4>
+        <p class="text-xs text-gray-500 leading-relaxed font-light">{{ bolo.descricao }}</p>
+      </div>
+    </div>
+
+    <div class="flex flex-col relative z-40">
+      <div class="mb-8">
+        <span class="text-arte-rosa uppercase tracking-[0.4em] text-[10px] font-bold">{{ bolo.categoria }}</span>
+        <h1 class="text-4xl md:text-5xl font-serif text-arte-texto mt-2 italic">{{ bolo.nome }}</h1>
+      </div>
+
+      <div class="bg-arte-creme/20 rounded-[2.5rem] p-8 md:p-10 border border-arte-pessego/30 shadow-sm relative overflow-hidden">
+
+        <div class="flex justify-between mb-10 relative z-10">
+          <div *ngFor="let p of ['verificar', 'formulario', 'contrato', 'sucesso']; let i = index"
+               class="w-full h-1 rounded-full mx-1 transition-all duration-500"
+               [ngClass]="passo === p ? 'bg-arte-rosa' : 'bg-gray-200'">
+          </div>
+        </div>
+
+        <div *ngIf="passo === 'verificar'" class="animate-fade-in">
+          <h2 class="text-lg font-serif italic text-arte-texto mb-6">Qual a data da festa?</h2>
+          <div class="space-y-6">
+            <input type="date" [(ngModel)]="dataSelecionada" (ngModelChange)="disponivel = null"
+                   class="w-full bg-white border border-gray-100 rounded-2xl px-6 py-5 outline-none focus:border-arte-rosa transition shadow-inner">
+
+            <button (click)="verificarDisponibilidade()"
+                    [disabled]="!dataSelecionada || carregando"
+                    class="w-full bg-arte-texto text-white py-5 rounded-full uppercase text-[10px] font-bold tracking-[0.3em] hover:bg-black transition-all">
+              {{ carregando ? 'Consultando...' : 'Verificar Agenda' }}
+            </button>
+
+            <div *ngIf="disponivel === true" class="p-6 bg-white rounded-2xl border border-green-100 text-center animate-bounce-in shadow-sm">
+              <p class="text-green-600 text-[10px] uppercase font-bold tracking-widest mb-4">✨ Data disponível!</p>
+              <button (click)="proximoPasso('formulario')" class="w-full bg-green-600 text-white py-4 rounded-full uppercase text-[10px] font-bold tracking-widest shadow-lg">
+                Pedir mais informações
+              </button>
+            </div>
+
+            <div *ngIf="disponivel === false" class="p-6 bg-red-50 rounded-2xl text-center border border-red-100">
+              <p class="text-red-600 text-[10px] uppercase font-bold tracking-widest">Já alugado nesta data 😔</p>
+            </div>
+
+            <div *ngIf="(suportesCompativeis$ | async)?.length" class="mt-8 pt-6 border-t border-gray-100 animate-fade-in">
+              <span class="text-[10px] uppercase font-bold tracking-widest text-gray-400 block mb-4">Combina perfeitamente com:</span>
+              
+              <div class="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
+                <div *ngFor="let sup of suportesCompativeis$ | async" class="w-24 shrink-0 group cursor-zoom-in" (click)="abrirFotoSuporte(sup, $event)">
+                  <div class="w-24 h-24 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden relative mb-2">
+                    <img *ngIf="sup.imagemUrl" [src]="sup.imagemUrl" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div *ngIf="sup.imagemUrl" class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <svg class="w-5 h-5 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                    </div>
+                    <span *ngIf="!sup.imagemUrl" class="text-[8px] text-gray-400 font-bold uppercase flex items-center justify-center w-full h-full">S/F</span>
+                  </div>
+                  <p class="text-[10px] font-bold text-gray-700 truncate text-center">{{ sup.nome }}</p>
+                </div>
+              </div>
+              
+              <div class="bg-blue-50/50 border border-blue-100 rounded-lg p-3 mt-4 flex items-start gap-2">
+                <span class="text-blue-400">💡</span>
+                <p class="text-[10px] text-blue-600/80 leading-relaxed font-bold">Será possível adicionar as boleiras acima à sua reserva na próxima etapa.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div *ngIf="passo === 'formulario'" class="animate-fade-in space-y-6">
+          <h2 class="text-lg font-serif italic text-arte-texto mb-2">Seus Dados</h2>
+          <div class="space-y-4">
+            <input [(ngModel)]="dadosCliente.nome" type="text" placeholder="Nome Completo" class="w-full border-b border-gray-200 py-4 bg-transparent outline-none focus:border-arte-rosa text-sm">
+            <input [(ngModel)]="dadosCliente.whatsapp" type="text" placeholder="WhatsApp com DDD" class="w-full border-b border-gray-200 py-4 bg-transparent outline-none focus:border-arte-rosa text-sm">
+            <input [(ngModel)]="dadosCliente.cpf" type="text" placeholder="CPF" class="w-full border-b border-gray-200 py-4 bg-transparent outline-none focus:border-arte-rosa text-sm">
+            
+            <div class="grid grid-cols-2 gap-4 pt-2">
+              <div>
+                <label class="text-[10px] uppercase font-bold text-gray-400 block mb-1">Como vai receber?</label>
+                <select [(ngModel)]="logisticaEscolhida" class="w-full border-b border-gray-200 py-3 bg-transparent outline-none focus:border-arte-rosa text-sm text-gray-600">
+                  <option value="retirada">Retirada no Ateliê</option>
+                  <option value="entrega">Entrega no Local</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-[10px] uppercase font-bold text-gray-400 block mb-1">Horário</label>
+                <input [(ngModel)]="horarioEscolhido" type="time" class="w-full border-b border-gray-200 py-3 bg-transparent outline-none focus:border-arte-rosa text-sm text-gray-600">
+              </div>
+            </div>
+
+            <!-- Formulário Estruturado para API de Logística -->
+            <div *ngIf="logisticaEscolhida === 'entrega'" class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-2 animate-fade-in mt-4">
+              <div class="sm:col-span-9">
+                <input [(ngModel)]="dadosCliente.enderecoRua" type="text" placeholder="Nome da Rua / Avenida" class="w-full border-b border-gray-200 py-3 bg-transparent outline-none focus:border-arte-rosa text-sm">
+              </div>
+              <div class="sm:col-span-3">
+                <input [(ngModel)]="dadosCliente.enderecoNumero" type="text" placeholder="Número" class="w-full border-b border-gray-200 py-3 bg-transparent outline-none focus:border-arte-rosa text-sm">
+              </div>
+              <div class="sm:col-span-6">
+                <input [(ngModel)]="dadosCliente.enderecoBairro" type="text" placeholder="Bairro" class="w-full border-b border-gray-200 py-3 bg-transparent outline-none focus:border-arte-rosa text-sm">
+              </div>
+              <div class="sm:col-span-6">
+                <input [(ngModel)]="dadosCliente.enderecoCidade" type="text" placeholder="Cidade" class="w-full border-b border-gray-200 py-3 bg-transparent outline-none focus:border-arte-rosa text-sm">
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="(suportesCompativeis$ | async)?.length" class="mt-6 pt-4 border-t border-gray-100 animate-fade-in">
+            <span class="text-[10px] uppercase font-bold tracking-widest text-gray-400 block mb-3">Sugestão de Suporte Ideal</span>
+            <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
+              <div *ngFor="let sup of suportesCompativeis$ | async" 
+                   (click)="toggleSuporte(sup)"
+                   [ngClass]="isSuporteSelecionado(sup.id!) ? 'border-arte-rosa bg-arte-rosa/5' : 'border-gray-100 bg-white hover:border-gray-200'"
+                   class="border rounded-xl p-3 flex items-center justify-between cursor-pointer transition-all select-none">
+                <div class="flex items-center gap-3 min-w-0">
+                  <!-- Adicionada ação de clique isolada na foto com efeito hover de lupa -->
+                  <div (click)="abrirFotoSuporte(sup, $event)" class="w-12 h-12 rounded-lg bg-gray-50 border border-gray-100 overflow-hidden shrink-0 flex items-center justify-center relative group hover:ring-2 hover:ring-arte-rosa transition-all cursor-zoom-in">
+                    <img *ngIf="sup.imagemUrl" [src]="sup.imagemUrl" class="w-full h-full object-cover group-hover:opacity-70 transition-opacity">
+                    <div *ngIf="sup.imagemUrl" class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/10">
+                      <svg class="w-5 h-5 text-arte-rosa drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                    </div>
+                    <span *ngIf="!sup.imagemUrl" class="text-[8px] text-gray-400 font-bold uppercase">S/F</span>
+                  </div>
+                  <div class="min-w-0">
+                    <p class="text-xs font-bold text-gray-700 truncate">{{ sup.nome }}</p>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">{{ sup.categoria }}</p>
+                  </div>
+                </div>
+                <div class="text-right shrink-0 ml-2">
+                  <span class="text-[9px] font-bold uppercase tracking-wider" [ngClass]="isSuporteSelecionado(sup.id!) ? 'text-arte-rosa' : 'text-gray-300'">
+                    {{ isSuporteSelecionado(sup.id!) ? 'Adicionado' : 'Adicionar' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button (click)="proximoPasso('contrato')"
+                  [disabled]="!dadosCliente.nome || !dadosCliente.cpf || !dadosCliente.whatsapp || !horarioEscolhido || (logisticaEscolhida === 'entrega' && (!dadosCliente.enderecoRua || !dadosCliente.enderecoNumero || !dadosCliente.enderecoBairro || !dadosCliente.enderecoCidade))"
+                  class="w-full bg-arte-texto text-white py-5 rounded-full uppercase text-[10px] font-bold tracking-[0.3em] mt-6 shadow-xl">
+            Detalhes dos meus dados
+          </button>
+        </div>
+
+        <div *ngIf="passo === 'contrato'" class="animate-fade-in">
+          <h2 class="text-lg font-serif italic text-arte-texto mb-6">Resumo dos meus dados</h2>
+
+          <div class="bg-white p-8 rounded-3xl text-[11px] text-gray-500 leading-relaxed border border-gray-50 mb-8 shadow-inner">
+            <p class="font-bold text-arte-texto text-center mb-6 uppercase tracking-widest">Dados para o Contrato</p>
+            <div class="space-y-4 uppercase tracking-wider">
+              <p><strong>BOLO SELECIONADO:</strong> {{ bolo.nome }}</p>
+              <p *ngIf="suportesSelecionados.length"><strong>SUPORTES ADICIONAIS:</strong> 
+                <span *ngFor="let s of suportesSelecionados; let last = last" class="text-gray-700 font-bold">
+                  {{ s.nome }}{{ !last ? ', ' : '' }}
+                </span>
+              </p>
+              <p><strong>DATA DO EVENTO:</strong> {{ dataSelecionada | date:'dd/MM/yyyy' }} às {{ horarioEscolhido }}</p>
+              <p><strong>LOGÍSTICA:</strong> <span class="text-arte-rosa font-bold">{{ logisticaEscolhida === 'entrega' ? 'Entrega no Local' : 'Retirada no Ateliê' }}</span></p>
+              <p *ngIf="logisticaEscolhida === 'entrega'"><strong>ENDEREÇO:</strong> {{ dadosCliente.enderecoRua }}, {{ dadosCliente.enderecoNumero }}, {{ dadosCliente.enderecoBairro }} - {{ dadosCliente.enderecoCidade }}</p>
+              <p><strong>LOCATÁRIO:</strong> {{ dadosCliente.nome }}</p>
+              <p><strong>CPF:</strong> {{ dadosCliente.cpf }}</p>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-gray-100">
+              <p class="mb-2 italic text-gray-400">Ao clicar em confirmar, o seu pedido será registrado em nosso sistema e a nossa equipe entrará em contato para combinarmos o valor e a entrega.</p>
+            </div>
+          </div>
+
+          <button (click)="finalizarReserva(bolo)"
+                  [disabled]="carregando"
+                  class="w-full bg-arte-rosa text-white py-5 rounded-full uppercase text-[10px] font-bold tracking-[0.3em] shadow-xl hover:bg-pink-600 transition-all">
+            {{ carregando ? 'A processar...' : 'Solicitar um orçamento' }}
+          </button>
+        </div>
+
+        <div *ngIf="passo === 'sucesso'" class="text-center py-10 animate-fade-in">
+          <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">✓</div>
+          <h2 class="text-2xl font-serif text-arte-texto italic mb-4">Pedido Enviado!</h2>
+          
+          <!-- Box do Protocolo -->
+          <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 mb-8 inline-block shadow-sm">
+            <p class="text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-1">Código da Reserva</p>
+            <p class="text-3xl font-mono font-bold text-arte-rosa tracking-widest">{{ codigoGerado }}</p>
+          </div>
+
+          <p class="text-xs text-gray-400 leading-relaxed mb-10 px-4">
+            Seu pedido foi enviado! Agora, aguarde o nosso contato no WhatsApp para confirmarmos os detalhes e formalizarmos o contrato.
+          </p>
+          <button (click)="proximoPasso('verificar')" class="w-full bg-arte-texto text-white py-5 rounded-full uppercase text-[10px] font-bold tracking-[0.3em] shadow-2xl">
+            Voltar ao Início
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SESSÃO: LIGHTBOX DE FOTO DO SUPORTE        -->
+  <!-- ========================================== -->
+  <div *ngIf="imagemExpandida" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 md:p-8 animate-fade-in" (click)="fecharImagemExpandida()">
+    <div class="relative max-w-5xl w-full flex flex-col items-center" (click)="$event.stopPropagation()">
+      <button (click)="fecharImagemExpandida()" class="absolute -top-10 right-0 md:-right-10 text-white hover:text-arte-rosa outline-none transition-colors">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <img [src]="imagemExpandida" class="w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl">
+    </div>
+  </div>
+
+  <div *ngIf="suporteEmDestaque" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 md:p-8 animate-fade-in" (click)="fecharFotoSuporte()">
+    <div class="relative max-w-4xl w-full flex flex-col items-center" (click)="$event.stopPropagation()">
+      <button (click)="fecharFotoSuporte()" class="absolute -top-10 right-0 md:-right-10 text-white hover:text-arte-rosa outline-none transition-colors">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <img [src]="suporteEmDestaque.imagemUrl" class="w-full max-h-[80vh] object-contain rounded-xl shadow-2xl">
+      <div class="mt-4 text-center">
+        <h3 class="text-xl font-serif text-white italic">{{ suporteEmDestaque.nome }}</h3>
+        <p class="text-sm text-gray-400 uppercase tracking-widest mt-1">{{ suporteEmDestaque.categoria }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

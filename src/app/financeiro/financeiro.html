@@ -1,0 +1,117 @@
+<div *ngIf="resumoFinanceiro$ | async as resumo" class="space-y-6 animate-fade-in text-slate-100">
+  
+  <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-700/50 flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-4 shadow-inner">
+    
+    <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 w-full lg:w-auto">
+      <button (click)="alterarPeriodo('hoje')" [ngClass]="filtroSelecionado === 'hoje' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500'" class="w-full sm:w-auto px-3 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all outline-none text-center">Hoje</button>
+      <button (click)="alterarPeriodo('ontem')" [ngClass]="filtroSelecionado === 'ontem' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500'" class="w-full sm:w-auto px-3 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all outline-none text-center">Ontem</button>
+      <button (click)="alterarPeriodo('7dias')" [ngClass]="filtroSelecionado === '7dias' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500'" class="w-full sm:w-auto px-3 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all outline-none text-center">7 Dias</button>
+      <button (click)="alterarPeriodo('esteMes')" [ngClass]="filtroSelecionado === 'esteMes' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 border border-slate-700 hover:border-slate-500'" class="w-full sm:w-auto col-span-2 sm:col-span-1 px-3 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all outline-none text-center">Este Mês</button>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-800/60">
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <input type="date" [(ngModel)]="dataInicioInput" class="w-full sm:w-auto bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 outline-none focus:border-blue-500 transition-colors">
+        <span class="text-xs text-slate-500 font-bold shrink-0">até</span>
+        <input type="date" [(ngModel)]="dataFimInput" class="w-full sm:w-auto bg-slate-800 border border-slate-700 text-white text-xs rounded-lg p-2.5 outline-none focus:border-blue-500 transition-colors">
+      </div>
+      <button (click)="aplicarFiltroPersonalizado()" [disabled]="!dataInicioInput || !dataFimInput" class="w-full sm:w-auto bg-slate-700 hover:bg-slate-600 disabled:bg-slate-800 disabled:text-slate-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors outline-none text-center">Filtrar</button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-slate-900/80 border border-slate-700/60 p-5 rounded-2xl shadow-sm relative overflow-hidden">
+      <span class="text-[10px] uppercase font-bold tracking-widest text-slate-400 block mb-1">Faturamento Bruto</span>
+      <h3 class="text-xl sm:text-2xl font-black text-white">R$ {{ resumo.faturamentoBruto.toFixed(2) }}</h3>
+      <div class="absolute bottom-0 left-0 w-full h-1 bg-blue-500/50"></div>
+    </div>
+
+    <div class="bg-slate-900/80 border border-slate-700/60 p-5 rounded-2xl shadow-sm relative overflow-hidden">
+      <span class="text-[10px] uppercase font-bold tracking-widest text-green-400 block mb-1">Faturamento Líquido</span>
+      <h3 class="text-xl sm:text-2xl font-black text-green-400">R$ {{ resumo.faturamentoLiquido.toFixed(2) }}</h3>
+      <div class="absolute bottom-0 left-0 w-full h-1 bg-green-500"></div>
+    </div>
+
+    <div class="bg-slate-900/80 border border-slate-700/60 p-5 rounded-2xl shadow-sm relative overflow-hidden">
+      <span class="text-[10px] uppercase font-bold tracking-widest text-red-400 block mb-1">Previsão de Recebimento</span>
+      <h3 class="text-xl sm:text-2xl font-black text-red-400">R$ {{ resumo.totalAReceber.toFixed(2) }}</h3>
+      <div class="absolute bottom-0 left-0 w-full h-1 bg-red-500/50"></div>
+    </div>
+  </div>
+
+  <div class="bg-slate-900/30 border border-slate-700/40 p-5 rounded-2xl">
+    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 pb-2 border-b border-slate-800">Ficha de Parceiros Mensalistas</h4>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div class="bg-slate-800/40 border border-slate-700/40 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+        <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Total Liquidado:</span>
+        <span class="font-bold text-green-400 text-base">R$ {{ resumo.mensalistasPagos.toFixed(2) }}</span>
+      </div>
+      <div class="bg-slate-800/40 border border-slate-700/40 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+        <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Inadimplência Atual:</span>
+        <span class="font-bold text-red-400 text-base">R$ {{ resumo.mensalistasPendentes.toFixed(2) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    
+    <div class="space-y-3">
+      <div class="flex justify-between items-center pb-1 border-b border-slate-800">
+        <h4 class="text-[10px] uppercase font-bold tracking-widest text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-1 rounded-md">Garantidos (Sinal Pago)</h4>
+        <span class="text-xs font-mono text-slate-500">{{ resumo.garantidosSinal.length }} itens</span>
+      </div>
+
+      <div *ngIf="resumo.garantidosSinal.length === 0" class="text-center py-8 bg-slate-900/20 border border-dashed border-slate-800 rounded-xl text-slate-600 text-xs uppercase tracking-wider">Nenhum contrato pendente.</div>
+      
+      <div class="space-y-2 max-h-[400px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-700">
+        <div *ngFor="let item of resumo.garantidosSinal" class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col gap-1.5">
+          <div class="flex justify-between items-start gap-2">
+            <div class="min-w-0 flex-1">
+              <span class="font-mono text-[9px] text-blue-400 font-bold block mb-0.5">{{ item.codigo }}</span>
+              <h5 class="text-xs font-bold text-slate-200 truncate">{{ item.cliente }}</h5>
+            </div>
+            <span class="text-[9px] text-slate-500 font-medium font-mono shrink-0 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">{{ item.data }}</span>
+          </div>
+          <p class="text-[11px] text-slate-400 truncate">{{ item.peca }}</p>
+          <div class="grid grid-cols-2 gap-2 mt-1 pt-2 border-t border-slate-800/60 text-center">
+            <div class="bg-slate-800/30 p-1.5 rounded">
+              <span class="text-[8px] text-slate-500 uppercase font-bold block">Entrou Caixa</span>
+              <span class="text-xs font-bold text-green-400">R$ {{ item.valorPago.toFixed(2) }}</span>
+            </div>
+            <div class="bg-slate-800/30 p-1.5 rounded">
+              <span class="text-[8px] text-slate-500 uppercase font-bold block">A receber</span>
+              <span class="text-xs font-bold text-red-400">R$ {{ item.valorPendente.toFixed(2) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <div class="flex justify-between items-center pb-1 border-b border-slate-800">
+        <h4 class="text-[10px] uppercase font-bold tracking-widest text-green-400 bg-green-400/10 border border-green-400/20 px-2.5 py-1 rounded-md">Quitados</h4>
+        <span class="text-xs font-mono text-slate-500">{{ resumo.quitados.length }} itens</span>
+      </div>
+
+      <div *ngIf="resumo.quitados.length === 0" class="text-center py-8 bg-slate-900/20 border border-dashed border-slate-800 rounded-xl text-slate-600 text-xs uppercase tracking-wider">Nenhum contrato liquidado.</div>
+
+      <div class="space-y-2 max-h-[400px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-700">
+        <div *ngFor="let item of resumo.quitados" class="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col gap-1.5">
+          <div class="flex justify-between items-start gap-2">
+            <div class="min-w-0 flex-1">
+              <span class="font-mono text-[9px] text-blue-400 font-bold block mb-0.5">{{ item.codigo }}</span>
+              <h5 class="text-xs font-bold text-slate-200 truncate">{{ item.cliente }}</h5>
+            </div>
+            <span class="text-[9px] text-slate-500 font-medium font-mono shrink-0 bg-slate-950 px-2 py-0.5 rounded border border-slate-800">{{ item.data }}</span>
+          </div>
+          <p class="text-[11px] text-slate-400 truncate">{{ item.peca }}</p>
+          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 mt-1 bg-green-500/5 p-2 rounded border border-green-500/10">
+            <span class="text-[9px] text-green-400 uppercase font-black tracking-wider">Valor Integral Liquidado:</span>
+            <span class="text-xs sm:text-sm font-black text-green-400">R$ {{ item.valorTotal.toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

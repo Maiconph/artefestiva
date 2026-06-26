@@ -1,0 +1,806 @@
+<!-- ========================================== -->
+<!-- SESSÃO: WRAPPER PRINCIPAL E CABEÇALHO      -->
+<!-- ========================================== -->
+<div class="min-h-screen bg-slate-900 md:p-8 flex flex-col items-center font-sans text-slate-200">
+  <div class="max-w-4xl w-full bg-slate-800 md:rounded-3xl shadow-2xl md:border md:border-slate-700 p-4 sm:p-6 md:p-10 min-h-screen md:min-h-0">
+
+    <div class="flex justify-between items-center mb-8">
+      <div class="flex flex-col">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Painel Administrativo</h2>
+        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold mt-1">Arte Festiva Ateliê</span>
+      </div>
+      <a routerLink="/" class="text-sm font-semibold text-slate-500 hover:text-white transition-colors">Sair para o Site</a>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SESSÃO: NAVEGAÇÃO DE ABAS                  -->
+    <!-- ========================================== -->
+    <div class="flex space-x-4 mb-8 border-b border-slate-700 pb-3 overflow-x-auto scrollbar-hide snap-x">
+      <button (click)="tipoCadastro = 'agenda'" [ngClass]="tipoCadastro === 'agenda' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Agenda</button>
+      <button (click)="tipoCadastro = 'financeiro'" [ngClass]="tipoCadastro === 'financeiro' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Financeiro</button>
+      <button (click)="tipoCadastro = 'orcamentos'" [ngClass]="tipoCadastro === 'orcamentos' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Pedidos</button>
+      <button (click)="tipoCadastro = 'bolo'" [ngClass]="tipoCadastro === 'bolo' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Cadastrar Bolo/Boleira</button>
+      <button (click)="tipoCadastro = 'banner'" [ngClass]="tipoCadastro === 'banner' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Banners</button>
+      <button (click)="tipoCadastro = 'mensalistas'" [ngClass]="tipoCadastro === 'mensalistas' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Mensalistas</button>
+      <button (click)="tipoCadastro = 'whatsapp'" [ngClass]="tipoCadastro === 'whatsapp' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">WhatsApp</button>
+      <button (click)="tipoCadastro = 'cobranca'" [ngClass]="tipoCadastro === 'cobranca' ? 'text-white border-b-2 border-blue-500' : 'text-slate-400 hover:text-slate-200'" class="text-sm font-semibold outline-none transition-all whitespace-nowrap pb-2">Cobrança</button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SESSÃO: ABA AGENDA                         -->
+    <!-- ========================================== -->
+    <div *ngIf="tipoCadastro === 'agenda'" class="space-y-4">
+      
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div class="flex items-center justify-between w-full md:w-auto gap-3 shrink-0">
+          <h3 class="text-lg md:text-xl font-bold text-white tracking-tight leading-tight">Fluxo de Agendamentos</h3>
+          <button (click)="abrirModalNovaReserva()" class="bg-blue-600 hover:bg-blue-500 text-white px-3 sm:px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-wider sm:tracking-widest shadow-lg transition-colors flex items-center gap-2 outline-none whitespace-nowrap shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            Nova Reserva
+          </button>
+        </div>
+        <div class="relative w-full md:w-[450px]">
+          <input [(ngModel)]="textoBuscaAgenda" (ngModelChange)="atualizarBuscaAgenda()" type="text" placeholder="Buscar cliente, whatsapp, bolo, código ou status..." class="bg-slate-900 border border-slate-700 text-white rounded-xl p-3 pl-10 outline-none text-xs w-full focus:border-blue-500 transition-colors placeholder-slate-500 shadow-inner">
+          <svg class="w-4 h-4 text-slate-500 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+      </div>
+
+      <div class="flex overflow-x-auto gap-2 mb-6 pb-3 scrollbar-hide snap-x w-full">
+        <button (click)="filtrarPorStatus('')" class="shrink-0 snap-start px-4 py-2 md:py-1.5 md:px-3 rounded-lg text-[10px] font-bold uppercase border border-slate-600 bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors outline-none whitespace-nowrap">Todos</button>
+        <button (click)="filtrarPorStatus('aguardando orcamento')" class="shrink-0 snap-start px-4 py-2 md:py-1.5 md:px-3 rounded-lg text-[10px] font-bold uppercase border border-slate-500/30 bg-slate-500/20 text-slate-300 hover:bg-slate-500/40 transition-colors outline-none">Ag. Orçamento</button>
+        <button (click)="filtrarPorStatus('pendente pagamento')" class="shrink-0 snap-start px-4 py-2 md:py-1.5 md:px-3 rounded-lg text-[10px] font-bold uppercase border border-yellow-500/30 bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/40 transition-colors outline-none">Pendente Pgto</button>
+        <button (click)="filtrarPorStatus('orcamento enviado')" class="shrink-0 snap-start px-4 py-2 md:py-1.5 md:px-3 rounded-lg text-[10px] font-bold uppercase border border-purple-500/30 bg-purple-500/20 text-purple-400 hover:bg-purple-500/40 transition-colors outline-none">Orç. Enviado</button>
+        <button (click)="filtrarPorStatus('pago parcialmente')" class="shrink-0 snap-start px-4 py-2 md:py-1.5 md:px-3 rounded-lg text-[10px] font-bold uppercase border border-orange-500/30 bg-orange-500/20 text-orange-400 hover:bg-orange-500/40 transition-colors outline-none">Pago Parcial</button>
+        <button (click)="filtrarPorStatus('pago')" class="shrink-0 snap-start px-4 py-2 md:py-1.5 md:px-3 rounded-lg text-[10px] font-bold uppercase border border-green-500/30 bg-green-500/20 text-green-400 hover:bg-green-500/40 transition-colors outline-none">Pago</button>
+        <button (click)="filtrarPorStatus('entregue')" class="shrink-0 snap-start px-4 py-2 md:py-1.5 md:px-3 rounded-lg text-[10px] font-bold uppercase border border-blue-500/30 bg-blue-500/20 text-blue-400 hover:bg-blue-500/40 transition-colors outline-none">Entregue</button>
+        <button (click)="filtrarPorStatus('@pendente_devolucao')" class="shrink-0 snap-start px-4 py-2 md:py-1.5 md:px-3 rounded-lg text-[10px] font-bold uppercase border border-pink-500/30 bg-pink-500/20 text-pink-400 hover:bg-pink-500/40 transition-colors outline-none shadow-[0_0_10px_rgba(236,72,153,0.15)]">Não Devolvidos</button>
+        <button (click)="filtrarPorStatus('cancelado')" class="shrink-0 snap-start px-4 py-2 md:py-1.5 md:px-3 rounded-lg text-[10px] font-bold uppercase border border-red-500/30 bg-red-500/20 text-red-400 hover:bg-red-500/40 transition-colors outline-none">Cancelado</button>
+      </div>
+
+      <div *ngIf="(locacoesAgrupadas$ | async)?.length === 0" class="text-center py-20 text-slate-500 text-sm">
+        <span *ngIf="textoBuscaAgenda">Nenhum contrato encontrado para os parâmetros digitados.</span>
+        <span *ngIf="!textoBuscaAgenda">Sua agenda está livre no momento. Nenhuma locação em aberto.</span>
+      </div>
+
+      <!-- Item de Data Agrupada -->
+      <div *ngFor="let grupo of locacoesAgrupadas$ | async" 
+           [ngClass]="{
+              'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.15)] bg-slate-900': grupo.urgencia === 'hoje',
+              'border-yellow-500/50 shadow-[0_0_15px_rgba(234,179,8,0.1)] bg-slate-800/80': grupo.urgencia === 'amanha',
+              'border-slate-700 bg-slate-800/50': grupo.urgencia === 'normal'
+           }"
+           class="border rounded-2xl overflow-hidden transition-all duration-300 relative mt-3">
+        
+        <!-- Badge de Semaforização Operacional -->
+        <div *ngIf="grupo.urgencia === 'hoje'" class="absolute top-0 right-0 bg-red-600 text-white text-[9px] md:text-[10px] font-black uppercase px-3 py-1.5 rounded-bl-xl tracking-widest flex items-center gap-1.5 shadow-md z-10">
+          <span class="w-2 h-2 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.8)]"></span>
+          Atenção: Entregas Hoje
+        </div>
+        <div *ngIf="grupo.urgencia === 'amanha'" class="absolute top-0 right-0 bg-yellow-500 text-slate-900 text-[9px] md:text-[10px] font-black uppercase px-3 py-1.5 rounded-bl-xl tracking-widest shadow-md z-10">
+          Preparar p/ Amanhã
+        </div>
+
+        <!-- Cabeçalho Expansível (Linha do Dia) -->
+       <div (click)="toggleDia(grupo.dataString)" class="flex items-center p-3 cursor-pointer hover:bg-slate-700/40 transition-colors" [ngClass]="{'pt-5 md:pt-4': grupo.urgencia !== 'normal'}">
+          <div [ngClass]="{
+                 'bg-red-600 shadow-red-900/50': grupo.urgencia === 'hoje',
+                 'bg-yellow-500 shadow-yellow-900/50': grupo.urgencia === 'amanha',
+                 'bg-blue-600': grupo.urgencia === 'normal'
+               }"
+               class="flex flex-col items-center justify-center text-white rounded-lg w-12 h-12 shrink-0 shadow-inner">
+            <span class="text-xl font-bold leading-none" [ngClass]="{'text-slate-900': grupo.urgencia === 'amanha'}">{{ grupo.diaNumero }}</span>
+          </div>
+          
+          <!-- Dia da Semana e Mês -->
+          <div class="ml-4 flex flex-col justify-center min-w-[80px]">
+             <span class="text-sm font-bold text-white">{{ grupo.diaSemana }}</span>
+             <span class="text-xs text-slate-400 uppercase tracking-wider">{{ grupo.mes }}</span>
+          </div>
+
+          <!-- Linha de Conexão e Indicador de Quantidade -->
+          <div class="flex-1 flex items-center ml-2 sm:ml-4">
+            <div class="h-px bg-slate-700 flex-1 mr-2 sm:mr-4 hidden sm:block"></div>
+            <span class="text-[10px] sm:text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 sm:px-3 py-1 rounded-full whitespace-nowrap shadow-sm ml-auto">
+              {{ grupo.locacoes.length }} <span class="hidden sm:inline">{{ grupo.locacoes.length === 1 ? 'Agendamento' : 'Agendamentos' }}</span><span class="sm:hidden">Loc.</span>
+            </span>
+          </div>
+          
+          <!-- Ícone Seta -->
+          <div class="ml-4 text-slate-500">
+             <svg [class.rotate-180]="diaExpandido === grupo.dataString" class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+        </div>
+
+        <!-- Conteúdo Expandido (Lista de Locações daquele dia) -->
+        <div *ngIf="diaExpandido === grupo.dataString" class="p-2 md:p-4 pt-0 space-y-4 bg-slate-800/20 border-t border-slate-700/50">
+          <div *ngFor="let loc of grupo.locacoes" class="border border-slate-700 rounded-2xl p-4 md:p-6 hover:border-slate-500 transition-all bg-slate-900/80 relative mt-4">
+            <div class="absolute top-4 right-4 md:top-6 md:right-6">
+              <span [ngClass]="{
+                  'bg-slate-500/20 text-slate-300 border-slate-500/30': loc.status === 'aguardando_orcamento',
+                  'bg-yellow-500/20 text-yellow-400 border-yellow-500/30': loc.status === 'pendente_pagamento',
+                  'bg-purple-500/20 text-purple-400 border-purple-500/30': loc.status === 'orcamento_enviado',
+                  'bg-orange-500/20 text-orange-400 border-orange-500/30': loc.status === 'pago_parcialmente',
+                  'bg-green-500/20 text-green-400 border-green-500/30': loc.status === 'pago', 
+                  'bg-blue-500/20 text-blue-400 border-blue-500/30': loc.status === 'entregue', 
+                  'bg-slate-700 text-slate-400 border-slate-600': loc.status === 'finalizado',
+                  'bg-red-500/20 text-red-400 border-red-500/30': loc.status === 'cancelado'
+                }" class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border">
+                {{ loc.status.replace('_', ' ') }}
+              </span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Peça(s) Selecionada(s):</span>
+                <p *ngIf="!loc.bolos || loc.bolos.length === 0" class="text-lg font-bold text-white mt-1">{{ loc.nomeBolo }}</p>
+                
+                <div *ngIf="loc.bolos && loc.bolos.length > 0" class="mt-2 flex flex-wrap gap-1.5">
+                  <span *ngFor="let b of loc.bolos" class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest shadow-sm">{{ b.nomeBolo || b.nome }}</span>
+                </div>
+                
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                  <div>
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Valor Base:</span>
+                    <p class="text-sm font-bold text-slate-300 mt-1">R$ {{ loc.valorReferencia || '0.00' }}</p>
+                  </div>
+                  
+                  <div *ngIf="loc.valorSinalPago !== undefined">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Já Pago:</span>
+                    <p class="text-sm font-bold text-green-400 mt-1">R$ {{ loc.valorSinalPago + (loc.valorAcertoFinal || 0) }}</p>
+                  </div>
+                  
+                  <div *ngIf="loc.valorPendente > 0">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Pendente:</span>
+                    <p class="text-sm font-bold text-orange-400 mt-1">R$ {{ loc.valorPendente }}</p>
+                  </div>
+                  
+                  <div *ngIf="loc.status === 'aguardando_orcamento'">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Ação:</span>
+                    <p class="text-sm font-bold text-slate-300 mt-1">Pendente de Orçamento</p>
+                  </div>
+
+                  <div *ngIf="loc.status === 'pendente_pagamento'">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Ação:</span>
+                    <p class="text-sm font-bold text-yellow-400 mt-1">Aguardando Contrato</p>
+                  </div>
+
+                  <div *ngIf="loc.status === 'orcamento_enviado'">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Ação:</span>
+                    <p class="text-sm font-bold text-purple-400 mt-1">Aguardando Aprovação</p>
+                  </div>
+                </div>
+
+                <div *ngIf="loc.dataRetiradaAcordada || loc.dataBaixaEntrega" class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-700/50">
+                  <div *ngIf="loc.dataRetiradaAcordada">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Agendado p/ Retirar:</span>
+                    <p class="text-xs font-bold text-slate-300 mt-1">
+                      {{ loc.dataRetiradaAcordada.split('-').reverse().join('/') }} 
+                      <span *ngIf="loc.horarioRetirada">às {{ loc.horarioRetirada }}</span>
+                    </p>
+                  </div>
+                  <div *ngIf="loc.dataBaixaEntrega && !loc.dataBaixaDevolucao">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Entregue (Baixa Sist.):</span>
+                    <p class="text-xs font-bold text-blue-400 mt-1">{{ loc.dataBaixaEntrega }}</p>
+                  </div>
+                  <div *ngIf="loc.dataBaixaDevolucao">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Devolvido (Baixa Sist.):</span>
+                    <p class="text-xs font-bold text-green-400 mt-1">{{ loc.dataBaixaDevolucao }}</p>
+                  </div>
+                </div>
+
+              </div>
+              <div class="border-t md:border-t-0 md:border-l border-slate-700 pt-4 md:pt-0 md:pl-6">
+                
+                <div *ngIf="loc.codigoReserva" class="mb-5">
+                  <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block mb-1">Protocolo:</span>
+                  <span class="font-mono text-sm text-blue-400 font-bold bg-blue-500/10 border border-blue-500/20 px-2.5 py-1 rounded tracking-widest shadow-inner">{{ loc.codigoReserva }}</span>
+                </div>
+
+                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Dados do Cliente:</span>
+                <p class="text-sm font-bold text-white mt-1">{{ loc.cliente.nome }}</p>
+                <p class="text-sm text-slate-300 mt-1">WhatsApp: {{ loc.cliente.whatsapp }}</p>
+                <p class="text-xs text-slate-400 mt-2 uppercase">Endereço: {{ loc.cliente.endereco }}</p>
+              </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-slate-700 flex flex-col sm:flex-row flex-wrap gap-3">
+              <button *ngIf="loc.status === 'aguardando_orcamento' || loc.status === 'pendente_pagamento' || loc.status === 'orcamento_enviado'" (click)="abrirModalPagamento(loc)" class="w-full sm:w-auto flex-1 bg-green-600 hover:bg-green-500 text-white px-4 py-3 sm:py-2 rounded-xl sm:rounded-lg text-xs font-bold uppercase shadow-sm transition-colors flex justify-center items-center">
+                {{ loc.status === 'aguardando_orcamento' ? 'Realizar Orçamento' : (loc.status === 'orcamento_enviado' ? 'Efetivar Contrato' : 'Fechar Contrato') }}
+              </button>
+              <button *ngIf="loc.status === 'aguardando_orcamento' || loc.status === 'pendente_pagamento' || loc.status === 'orcamento_enviado'" (click)="cancelarReservaManual(loc.id)" [disabled]="loading" class="w-full sm:w-auto border border-red-500/30 text-red-400 hover:bg-red-500/10 disabled:bg-slate-800 px-4 py-3 sm:py-2 rounded-xl sm:rounded-lg text-xs font-bold uppercase shadow-sm transition-colors flex justify-center items-center">
+                Cancelar Reserva
+              </button>
+              <button *ngIf="loc.status === 'pago_parcialmente'" (click)="abrirModalAcerto(loc)" class="w-full sm:w-auto flex-1 bg-orange-600 hover:bg-orange-500 text-white px-4 py-3 sm:py-2 rounded-xl sm:rounded-lg text-xs font-bold uppercase shadow-sm transition-colors flex justify-center items-center">Acerto</button>
+              <button *ngIf="loc.status === 'pago' || loc.status === 'contrato_assinado'" (click)="mudarStatus(loc.id, 'entregue')" class="w-full sm:w-auto flex-1 bg-blue-600 hover:bg-blue-500 text-white px-4 py-3 sm:py-2 rounded-xl sm:rounded-lg text-xs font-bold uppercase shadow-sm transition-colors flex justify-center items-center">Sinalizar Entrega</button>
+              
+              <button *ngIf="loc.status === 'entregue'" (click)="mudarStatus(loc.id, 'finalizado')" class="w-full sm:w-auto flex-1 bg-slate-600 hover:bg-slate-500 text-white px-4 py-3 sm:py-2 rounded-xl sm:rounded-lg text-xs font-bold uppercase shadow-sm transition-colors flex justify-center items-center">Registrar Devolução</button>
+
+              <button *ngIf="loc.valorPendente > 0" (click)="registrarPagamentoManual(loc)" class="w-full sm:w-auto flex-1 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 sm:py-2 rounded-xl sm:rounded-lg text-xs font-bold uppercase shadow-sm transition-colors flex justify-center items-center">Baixar Manual</button>
+              <a [href]="'https://wa.me/55' + loc.cliente.whatsapp.replace(' ', '').replace('-', '')" target="_blank" class="w-full sm:w-auto flex-1 border border-green-500/30 text-green-400 hover:bg-green-500/10 px-4 py-3 sm:py-2 rounded-xl sm:rounded-lg text-xs font-bold uppercase flex items-center justify-center transition-colors">WhatsApp</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SESSÃO: ABA PEDIDOS (ORÇAMENTOS)           -->
+    <!-- ========================================== -->
+    <div *ngIf="tipoCadastro === 'orcamentos'" class="space-y-6">
+      <div *ngIf="(orcamentos$ | async)?.length === 0" class="text-center py-20 text-slate-500 text-sm">Nenhum pedido de orçamento recebido.</div>
+      <div *ngFor="let ped of orcamentos$ | async" class="border border-slate-700 rounded-2xl p-6 bg-slate-800/50 hover:border-slate-600 transition-all">
+        
+        <!-- Header do Card: Badge e Ações -->
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-700/50">
+          <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Novo Orçamento</span>
+          <button (click)="excluirOrcamento(ped.id)" class="group text-slate-500 hover:text-red-400 text-xs font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5 outline-none">
+            <svg class="w-4 h-4 text-slate-600 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            Excluir
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Coluna 1: Info do Pedido -->
+          <div class="pr-8">
+            <h3 class="font-bold text-2xl text-white tracking-tight">Tema: "{{ ped.tema }}"</h3>
+            <p class="text-sm text-slate-400 mt-3 leading-relaxed">{{ ped.observacoes }}</p>
+            <div class="mt-5 flex space-x-3">
+              <span class="bg-slate-700/50 border border-slate-600 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300">{{ ped.andares }} Andares</span>
+            </div>
+          </div>
+          
+          <!-- Coluna 2: Info do Cliente e CTA -->
+          <div class="bg-slate-900/80 border border-slate-700 p-6 rounded-2xl flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest block mb-2">Dados do Cliente</span>
+              <p class="text-lg font-bold text-white">{{ ped.nome }}</p>
+              <div class="mt-3 space-y-1.5">
+                <p class="text-sm text-blue-400 font-semibold">Data do Evento: {{ ped.dataEvento | date:'dd/MM/yyyy' }}</p>
+                <p class="text-sm text-slate-400">WhatsApp: {{ ped.whatsapp }}</p>
+              </div>
+            </div>
+            <button (click)="responderOrcamento(ped)" class="w-full text-center bg-green-600 hover:bg-green-500 text-white py-3.5 rounded-xl text-xs font-bold uppercase mt-6 shadow-sm transition-colors tracking-wide">
+              Responder no WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <!-- ========================================== -->
+    <!-- SESSÃO: ABA CADASTRAR BOLO                 -->
+    <!-- ========================================== -->
+    <div *ngIf="tipoCadastro === 'bolo'" class="space-y-6">
+      
+      <!-- Linha 1: Código e Nome -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div class="flex flex-col space-y-2 md:col-span-3">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Cód. Interno</label>
+          <!-- A classe 'uppercase' força o input a ficar em caixa alta visualmente -->
+          <input [(ngModel)]="novoBolo.codigo" type="text" placeholder="EX: 001" class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm uppercase placeholder-slate-600 focus:border-blue-500 transition-colors">
+        </div>
+        <div class="flex flex-col space-y-2 md:col-span-9">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Nome do Bolo/Boleira</label>
+          <input [(ngModel)]="novoBolo.nome" type="text" placeholder="Ex: Bolo Jardim Encantado" class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm placeholder-slate-600 focus:border-blue-500 transition-colors">
+        </div>
+      </div>
+      
+      <!-- Linha 2: Categorias e Valor Totalmente Empilhados (Sincronizado Mobile/Desktop) -->
+      <div class="flex flex-col space-y-4">
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Categorias</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 gap-3 max-h-40 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600">
+            <label *ngFor="let cat of listaCategorias" class="flex items-center gap-2 cursor-pointer text-sm text-slate-300 hover:text-white select-none">
+              <input type="checkbox" [checked]="novoBolo.categoria?.includes(cat)" (change)="toggleCategoriaNovoBolo(cat)" class="rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-blue-500">
+              {{ cat }}
+            </label>
+          </div>
+        </div>
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Valor de Referência (R$)</label>
+          <input type="text" [value]="formatarMoedaVisor(novoBolo.valorLocacao)" (input)="aplicarMascaraMoeda($event, novoBolo, 'valorLocacao')" placeholder="0,00" class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm w-full placeholder-slate-600 focus:border-blue-500 transition-colors">
+        </div>
+      </div>
+      
+      <div class="flex flex-col space-y-2">
+        <label class="text-xs uppercase font-bold text-slate-400 ml-1">Descrição Técnica</label>
+        <textarea [(ngModel)]="novoBolo.descricao" placeholder="Detalhes como cores, texturas e tamanho..." class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm w-full placeholder-slate-600 focus:border-blue-500 transition-colors" rows="3"></textarea>
+      </div>
+
+      <div class="flex flex-col space-y-2">
+        <label class="text-xs uppercase font-bold text-slate-400 ml-1">Suportes Compatíveis (Opcional)</label>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 bg-slate-900 p-4 rounded-2xl border border-slate-700 max-h-40 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600">
+          <label *ngFor="let sup of suportes$ | async" class="flex items-center gap-2 cursor-pointer text-xs text-slate-300 hover:text-white select-none">
+            <input type="checkbox" [checked]="novoBolo.boleirasCompativeis?.includes(sup.id)" (change)="toggleBoleiraNoNovoBolo(sup.id)" class="rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-blue-500">
+            {{ sup.nome }}
+          </label>
+        </div>
+      </div>
+      
+      <div class="flex flex-col space-y-2">
+        <label class="text-xs uppercase font-bold text-slate-400 ml-1">Imagem do Bolo/Boleira</label>
+        <input type="file" (change)="onFileSelected($event)" class="block w-full text-sm text-slate-400 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-bold file:uppercase file:bg-slate-700 file:text-white file:cursor-pointer hover:file:bg-slate-600 transition-all">
+      </div>
+      
+      <button (click)="salvar()" [disabled]="loading" class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-600 text-white py-4 rounded-2xl uppercase text-sm font-bold shadow-lg transition-all mt-2 mb-12">
+        {{ loading ? 'Processando...' : 'Salvar Novo Bolo/Boleira' }}
+      </button>
+
+      <div class="pt-8 border-t border-slate-700/80">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+          <h3 class="text-xl font-bold text-white tracking-tight">Acervo Cadastrado</h3>
+          <div class="relative w-full md:w-80">
+            <input [(ngModel)]="textoBusca" (ngModelChange)="atualizarBusca()" type="text" placeholder="Buscar por código, nome ou categoria..." class="bg-slate-900 border border-slate-700 text-white rounded-xl p-3 pl-10 outline-none text-xs w-full focus:border-blue-500 transition-colors placeholder-slate-500 shadow-inner">
+            <svg class="w-4 h-4 text-slate-500 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+        </div>
+        
+        <div *ngIf="(bolosFiltrados$ | async)?.length === 0" class="text-center py-10 text-slate-500 text-sm">Nenhum bolo/boleira encontrado no acervo.</div>
+
+        <div class="space-y-4">
+          <div *ngFor="let bolo of bolosFiltrados$ | async" class="bg-slate-800/60 border border-slate-700 rounded-2xl overflow-hidden hover:border-slate-500 transition-all shadow-sm">
+            
+            <div (click)="toggleBoloExpandido(bolo.id)" class="flex items-center p-4 cursor-pointer hover:bg-slate-700/40 transition-colors">
+              <div class="w-14 h-14 shrink-0 bg-slate-900 rounded-xl border border-slate-700 overflow-hidden flex items-center justify-center">
+                <img *ngIf="obterTodasImagens(bolo).length > 0" [src]="obterTodasImagens(bolo)[0]" class="w-full h-full object-cover pointer-events-none">
+                <svg *ngIf="obterTodasImagens(bolo).length === 0" class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              </div>
+              
+              <div class="ml-4 flex flex-col flex-1">
+                <span class="font-mono text-[10px] text-blue-400 font-bold uppercase tracking-widest">{{ bolo.codigo || 'S/C' }}</span>
+                <span class="text-sm font-bold text-white mt-0.5">{{ bolo.nome }}</span>
+              </div>
+              
+              <div class="ml-4 text-slate-500 flex items-center gap-3">
+                <span *ngIf="boloExpandido !== bolo.id" class="hidden sm:block text-[10px] uppercase font-bold text-slate-500 tracking-wider">Ver Detalhes</span>
+                <svg [class.rotate-180]="boloExpandido === bolo.id" class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </div>
+
+            <div *ngIf="boloExpandido === bolo.id" class="p-6 pt-0 border-t border-slate-700/50 mt-2 animate-fade-in">
+              
+              <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-4 mb-4">
+                <div class="md:col-span-3 flex flex-col space-y-1">
+                  <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Cód. Interno</label>
+                  <input [(ngModel)]="bolo.codigo" type="text" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-3 outline-none text-xs w-full uppercase font-mono focus:border-blue-500 transition-colors">
+                </div>
+                <div class="md:col-span-9 flex flex-col space-y-1">
+                  <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Nome do Modelo</label>
+                  <input [(ngModel)]="bolo.nome" type="text" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-3 outline-none text-xs w-full focus:border-blue-500 transition-colors">
+                </div>
+              </div>
+
+              <!-- Linha 2: Categorias e Valor Totalmente Empilhados (Sincronizado Mobile/Desktop) -->
+              <div class="flex flex-col space-y-3 mb-4">
+                <div class="flex flex-col space-y-1">
+                  <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Categorias</label>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 bg-slate-900 border border-slate-700 text-white rounded-xl p-3 gap-2 max-h-28 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600">
+                    <label *ngFor="let cat of listaCategorias" class="flex items-center gap-2 cursor-pointer text-xs text-slate-300 hover:text-white select-none">
+                      <input type="checkbox" [checked]="bolo.categoria?.includes(cat)" (change)="toggleCategoriaNoBolo(bolo, cat)" class="rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-blue-500">
+                      {{ cat }}
+                    </label>
+                  </div>
+                </div>
+                <div class="flex flex-col space-y-1">
+                  <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Valor de Referência (R$)</label>
+                  <input type="text" [value]="formatarMoedaVisor(bolo.valorLocacao)" (input)="aplicarMascaraMoeda($event, bolo, 'valorLocacao')" placeholder="0,00" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-3 outline-none text-xs w-full focus:border-blue-500 transition-colors">
+                </div>
+              </div>
+
+              <div class="flex flex-col md:flex-row gap-4 mb-6 items-start md:items-end">
+                <div class="flex-1 w-full flex flex-col gap-3">
+                  <div>
+                    <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Descrição Técnica</label>
+                    <textarea [(ngModel)]="bolo.descricao" rows="4" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-3 outline-none text-xs w-full focus:border-blue-500 transition-colors resize-y h-24"></textarea>
+                  </div>
+                  <div>
+                    <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Suportes Compatíveis (Boleiras)</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 bg-slate-900 p-3 rounded-xl border border-slate-700 max-h-24 overflow-y-auto">
+                      <label *ngFor="let sup of suportes$ | async" class="flex items-center gap-2 cursor-pointer text-[11px] text-slate-300 hover:text-white select-none">
+                        <input type="checkbox" [checked]="bolo.boleirasCompativeis?.includes(sup.id)" (change)="toggleBoleiraNoBolo(bolo, sup.id)" class="rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-blue-500">
+                        {{ sup.nome }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="border-t border-slate-700/50 pt-6">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                  <label class="text-xs uppercase font-bold text-slate-400 tracking-widest">Galeria de Imagens</label>
+                  <div class="relative w-full sm:w-auto">
+                    <input type="file" (change)="adicionarImagemGaleria(bolo, $event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                    <button class="w-full sm:w-auto bg-slate-700 hover:bg-slate-600 text-white px-4 py-3 sm:py-2 rounded-xl sm:rounded-lg text-xs sm:text-[10px] font-bold uppercase transition-colors relative z-0 flex items-center justify-center gap-2">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                      Adicionar Foto
+                    </button>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4" (dragover)="$event.preventDefault()">
+                  <div *ngFor="let img of obterTodasImagens(bolo); let i = index" 
+                       draggable="true" 
+                       (dragstart)="onDragStart(i)" 
+                       (drop)="onDrop(bolo, i)"
+                       (dragover)="onDragOver($event)"
+                       class="relative group rounded-xl overflow-hidden border-2 aspect-square bg-slate-900 shadow-md cursor-grab active:cursor-grabbing hover:opacity-80 transition-all"
+                       [ngClass]="{'border-blue-500': i === 0, 'border-slate-700 hover:border-slate-500': i > 0}">
+                    <img [src]="img" class="w-full h-full object-cover pointer-events-none">
+                    <div *ngIf="i === 0" class="absolute top-2 left-2 bg-blue-500 text-white text-[8px] font-bold uppercase px-2 py-1 rounded shadow-sm tracking-widest pointer-events-none">Capa Principal</div>
+                    <button (click)="removerImagemGaleria(bolo, img)" class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity z-10 shadow-lg outline-none">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-slate-700/50 flex flex-col md:flex-row justify-end gap-3">
+                  <button (click)="excluirBolo(bolo.id, bolo.nome)" [disabled]="loading" class="w-full md:w-auto bg-transparent border border-red-500/30 text-red-400 hover:bg-red-500/10 disabled:bg-slate-800 px-8 py-3 rounded-xl text-xs font-bold uppercase transition-colors tracking-wider flex items-center justify-center">Excluir Bolo/Boleira</button>
+                  <button (click)="atualizarBoloCompleto(bolo)" [disabled]="loading" class="w-full md:w-auto bg-blue-600 hover:bg-blue-500 disabled:bg-slate-600 text-white px-10 py-3 rounded-xl text-xs font-bold uppercase transition-colors tracking-wider shadow-md flex items-center justify-center">Salvar Alterações</button>
+                </div>
+              </div>
+
+            </div>
+         </div>
+     </div>
+   </div>
+  </div>
+
+    <!-- ========================================== -->
+    <!-- SESSÃO: ABA BANNERS                        -->
+    <!-- ========================================== -->
+    <div *ngIf="tipoCadastro === 'banner'" class="space-y-6">
+      <input [(ngModel)]="novoBanner.title" type="text" placeholder="Título" class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm w-full placeholder-slate-600 focus:border-blue-500 transition-colors">
+      <input [(ngModel)]="novoBanner.subtitle" type="text" placeholder="Subtítulo" class="bg-slate-900 border border-slate-700 text-white rounded-2xl p-4 outline-none text-sm w-full placeholder-slate-600 focus:border-blue-500 transition-colors">
+      <div class="flex flex-col space-y-2">
+        <label class="text-xs uppercase font-bold text-slate-400">Imagem do Banner</label>
+        <input type="file" (change)="onFileSelected($event)" class="block w-full text-sm text-slate-400 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-bold file:uppercase file:bg-slate-700 file:text-white file:cursor-pointer hover:file:bg-slate-600 transition-all">
+      </div>
+      <button (click)="salvar()" [disabled]="loading" class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-600 text-white py-4 rounded-2xl uppercase text-sm font-bold shadow-lg transition-all">
+        {{ loading ? 'Enviando...' : 'Publicar Banner' }}
+      </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SESSÃO: ABA MENSALISTAS (COMPONENTE ISOLADO)-->
+    <!-- ========================================== -->
+    <app-mensalistas *ngIf="tipoCadastro === 'mensalistas'"></app-mensalistas>
+<app-whatsapp *ngIf="tipoCadastro === 'whatsapp'"></app-whatsapp>
+<app-cobranca *ngIf="tipoCadastro === 'cobranca'"></app-cobranca>
+    <app-financeiro *ngIf="tipoCadastro === 'financeiro'"></app-financeiro>
+    
+
+    <!-- ========================================== -->
+    <!-- SESSÃO: RODAPÉ                             -->
+    <!-- ========================================== -->
+    <div class="mt-12 pt-8 border-t border-slate-700 text-center">
+      <p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">Plataforma Gerencial - Comph Sistemas 2026</p>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SESSÃO: MODAL DE CONTRATO                  -->
+  <!-- ========================================== -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center md:p-4">
+    <div class="bg-slate-800 border-t md:border border-slate-700 rounded-t-3xl md:rounded-[2.5rem] max-w-2xl w-full p-6 md:p-10 shadow-2xl overflow-y-auto max-h-[90vh] pb-10 md:pb-10">
+      <div class="flex justify-between items-center mb-6 md:mb-4">
+        <h3 class="font-bold text-xl md:text-2xl text-white">
+          {{ locacaoSelecionada?.status === 'aguardando_orcamento' || locacaoSelecionada?.status === 'orcamento_enviado' ? 'Emissão de Orçamento' : 'Emissão de Contrato' }}
+        </h3>
+        <button (click)="fecharModalContrato()" class="md:hidden bg-slate-700 text-slate-300 p-2.5 rounded-full outline-none hover:bg-slate-600 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Bloco de Resumo das Peças e Valores Ajustado para Exibição em Lista -->
+      <div class="bg-slate-900/60 border border-slate-700 rounded-2xl mb-6 p-5 shadow-inner space-y-4">
+        <span class="text-xs text-slate-400 font-bold uppercase tracking-wider block">Peças Solicitadas:</span>
+        
+                <div class="space-y-2 max-h-44 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-700">
+          
+                    <ng-container *ngIf="locacaoSelecionada?.bolos && locacaoSelecionada.bolos.length > 0">
+            <div *ngFor="let b of locacaoSelecionada.bolos" class="flex items-center justify-between bg-slate-800/80 border border-slate-700/60 rounded-xl p-3 text-xs">
+              <div class="flex items-center gap-3 min-w-0 flex-1 pr-2">
+                <span class="font-mono text-blue-400 font-bold bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded text-[10px] tracking-wider uppercase shrink-0">
+                  Cód: {{ obterItemCompleto(b).codigo }}
+                </span>
+                <span class="text-slate-200 font-semibold truncate">{{ b.nomeBolo }}</span>
+              </div>
+              <span class="text-slate-400 font-bold shrink-0">R$ {{ formatarMoedaVisor(obterItemCompleto(b).valorLocacao) || '0,00' }}</span>
+            </div>
+          </ng-container>
+
+                    <div *ngIf="!locacaoSelecionada?.bolos || locacaoSelecionada.bolos.length === 0" class="flex items-center justify-between bg-slate-800/80 border border-slate-700/60 rounded-xl p-3 text-xs">
+            <div class="flex items-center gap-3 min-w-0 flex-1 pr-2">
+              <span class="font-mono text-blue-400 font-bold bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded text-[10px] tracking-wider uppercase shrink-0">
+                Cód: {{ locacaoSelecionada?.codigo || locacaoSelecionada?.codigoBolo || 'N/A' }}
+              </span>
+              <span class="text-slate-200 font-semibold truncate">{{ locacaoSelecionada?.nomeBolo }}</span>
+            </div>
+            <span class="text-slate-400 font-bold shrink-0">R$ {{ formatarMoedaVisor(locacaoSelecionada?.valorReferencia) || '0,00' }}</span>
+          </div>
+
+        </div>
+
+                <div class="pt-3 border-t border-slate-700/50 flex justify-between items-center">
+          <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Valor Base do Acervo:</span>
+          <span class="text-green-400 font-black text-xl tracking-tight">R$ {{ locacaoSelecionada?.valorReferencia || '0.00' }}</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Data Retirada</label>
+          <input type="date" [(ngModel)]="dadosFechamento.dataRetirada" class="bg-slate-900 border border-slate-700 text-white p-3 rounded-xl text-sm outline-none focus:border-blue-500 transition-colors">
+        </div>
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Data Devolução</label>
+          <input type="date" [(ngModel)]="dadosFechamento.dataDevolucao" class="bg-slate-900 border border-slate-700 text-white p-3 rounded-xl text-sm outline-none focus:border-blue-500 transition-colors">
+        </div>
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Horário da retirada</label>
+          <input type="text" [value]="dadosFechamento.horarioAjustado" (input)="aplicarMascaraHora($event, dadosFechamento, 'horarioAjustado')" placeholder="Ex: 14:00" maxlength="5" class="bg-slate-900 border border-slate-700 text-white p-3 rounded-xl text-sm outline-none focus:border-blue-500 placeholder-slate-600 transition-colors">
+        </div>
+      </div>
+
+      <div class="bg-slate-900/40 border border-slate-700 p-5 rounded-2xl mb-8 transition-all">
+        <div class="flex items-center gap-6 mb-4">
+          <label class="flex items-center gap-2 cursor-pointer group">
+            <input type="radio" name="logistica" value="retirada" [(ngModel)]="dadosFechamento.tipoLogistica" (change)="calcularValores(true)" class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 focus:ring-blue-600 focus:ring-offset-slate-900">
+            <span class="text-sm font-bold text-slate-300 uppercase tracking-wider group-hover:text-white transition-colors">Retirada no Ateliê</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer group">
+            <input type="radio" name="logistica" value="entrega" [(ngModel)]="dadosFechamento.tipoLogistica" (change)="calcularValores(true)" class="w-4 h-4 text-blue-600 bg-slate-900 border-slate-700 focus:ring-blue-600 focus:ring-offset-slate-900">
+            <span class="text-sm font-bold text-slate-300 uppercase tracking-wider group-hover:text-white transition-colors">Entrega no Local</span>
+          </label>
+        </div>
+
+        <div *ngIf="dadosFechamento.tipoLogistica === 'entrega'" class="space-y-4 mt-4 pt-4 border-t border-slate-700/50 animate-fade-in">
+          
+          <div class="flex flex-col space-y-2">
+            <label class="text-xs uppercase font-bold text-slate-400 ml-1">Endereço de Entrega</label>
+            <input type="text" [(ngModel)]="dadosFechamento.enderecoEntrega" (ngModelChange)="onEnderecoChange($event)" placeholder="Rua, Número, Bairro, Cidade..." class="bg-slate-900 border text-white p-3 rounded-xl text-sm outline-none transition-colors" [ngClass]="mensagemEnderecoNaoEncontrado ? 'border-red-500/50 focus:border-red-500' : 'border-slate-700 focus:border-blue-500'">
+            
+            <span *ngIf="mensagemEnderecoNaoEncontrado" class="text-xs font-bold text-red-400 ml-1 mt-2 animate-fade-in flex items-center gap-2">
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+              Endereço não localizado pelo mapa. Por favor, insira a distância (KM) manualmente.
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="flex flex-col space-y-2">
+              <label class="text-xs uppercase font-bold text-slate-400 ml-1">Distância Estimada (KM)</label>
+              <input type="number" [(ngModel)]="dadosFechamento.kmDistancia" (input)="recalcularTotalEntrega()" step="0.1" placeholder="0.0" class="bg-slate-900 border border-slate-700 text-white p-3 rounded-xl text-sm outline-none focus:border-blue-500 transition-colors">
+            </div>
+            <div class="flex flex-col space-y-2">
+              <label class="text-xs uppercase font-bold text-slate-400 ml-1">Valor por KM Rodado</label>
+              <input type="text" [value]="formatarMoedaVisor(dadosFechamento.valorPorKm)" (input)="aplicarMascaraMoeda($event, dadosFechamento, 'valorPorKm'); recalcularTotalEntrega()" placeholder="0,00" class="bg-slate-900 border border-slate-700 text-white p-3 rounded-xl text-sm outline-none focus:border-blue-500 transition-colors">
+            </div>
+            <div class="flex flex-col space-y-2">
+              <label class="text-xs uppercase font-bold text-slate-400 ml-1">Valor da Entrega</label>
+              <input type="text" [value]="formatarMoedaVisor(dadosFechamento.valorEntrega)" (input)="aplicarMascaraMoeda($event, dadosFechamento, 'valorEntrega', true, true)" placeholder="0,00" class="bg-slate-900 border border-slate-700 text-green-400 font-bold p-3 rounded-xl text-sm outline-none focus:border-blue-500 transition-colors bg-slate-900/40 shadow-inner">
+            </div>
+          </div>
+
+          <div *ngIf="urlMapaSegura" class="w-full h-72 rounded-xl overflow-hidden border border-slate-700 shadow-inner relative bg-slate-900 transition-all animate-fade-in">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              loading="lazy" 
+              allowfullscreen 
+              [src]="urlMapaSegura">
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Valor da Locação (Base)</label>
+          <input type="text" [value]="formatarMoedaVisor(dadosFechamento.valorTotal)" (input)="aplicarMascaraMoeda($event, dadosFechamento, 'valorTotal', true, true)" placeholder="0,00" class="bg-slate-900 border border-slate-700 text-white p-4 rounded-2xl text-sm outline-none focus:border-blue-500 placeholder-slate-600 transition-colors">
+        </div>
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Valor do Sinal / Reserva (R$)</label>
+          <input type="text" [value]="formatarMoedaVisor(dadosFechamento.valorSinal)" (input)="aplicarMascaraMoeda($event, dadosFechamento, 'valorSinal', true, false)" placeholder="0,00" class="bg-slate-900 border border-slate-700 text-white p-4 rounded-2xl text-sm outline-none focus:border-blue-500 placeholder-slate-600 transition-colors">
+        </div>
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Valor na retirada/entrega (R$)</label>
+          <input type="text" [value]="formatarMoedaVisor(dadosFechamento.valorRetirada)" (input)="aplicarMascaraMoeda($event, dadosFechamento, 'valorRetirada')" placeholder="0,00" class="bg-slate-900 border border-slate-700 text-white p-4 rounded-2xl text-sm outline-none focus:border-blue-500 placeholder-slate-600 transition-colors">
+        </div>
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Valor p/ Reposição (R$)</label>
+          <input type="text" [value]="formatarMoedaVisor(dadosFechamento.valorReposicao)" (input)="aplicarMascaraMoeda($event, dadosFechamento, 'valorReposicao')" placeholder="450,00" class="bg-slate-900 border border-slate-700 text-white p-4 rounded-2xl text-sm outline-none focus:border-blue-500 placeholder-slate-600 transition-colors">
+        </div>
+      </div>
+
+      <div class="flex flex-col space-y-2 mb-10">
+        <label class="text-xs uppercase font-bold text-slate-400 ml-1">Forma de Pagamento</label>
+        <select [(ngModel)]="dadosFechamento.formaPagamento" class="w-full bg-slate-900 border border-slate-700 text-white p-4 rounded-2xl text-sm outline-none focus:border-blue-500 transition-colors">
+          <option value="Pix">Pix</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Cartão de Crédito/Débito">Cartão de Crédito/Débito</option>
+          <option value="Transferência Bancária">Transferência Bancária</option>
+        </select>
+      </div>
+
+      <div *ngIf="porcentagemDesconto > 0" class="mb-6 flex items-center justify-center animate-fade-in">
+        <span class="text-xs font-bold text-green-400 bg-green-500/10 border border-green-500/20 px-5 py-3 rounded-xl uppercase tracking-wider text-center w-full shadow-inner">
+          Você está aplicando {{ porcentagemDesconto | number:'1.0-2' }}% de desconto nesta locação
+        </span>
+      </div>
+      <div *ngIf="porcentagemDesconto < 0" class="mb-6 flex items-center justify-center animate-fade-in">
+        <span class="text-xs font-bold text-orange-400 bg-orange-500/10 border border-orange-500/20 px-5 py-3 rounded-xl uppercase tracking-wider text-center w-full shadow-inner">
+          Você está aplicando {{ (porcentagemDesconto * -1) | number:'1.0-2' }}% de acréscimo nesta locação
+        </span>
+      </div>
+
+      <div class="mb-6 bg-slate-900/80 border border-slate-700 rounded-2xl p-5 flex justify-between items-center shadow-inner">
+        <span class="text-xs uppercase font-bold text-slate-400 tracking-wider">
+          Soma Total do {{ locacaoSelecionada?.status === 'aguardando_orcamento' || locacaoSelecionada?.status === 'orcamento_enviado' ? 'Orçamento' : 'Contrato' }} (Locação + Entrega):
+        </span>
+        <span class="text-2xl font-black text-green-400 tracking-tight">R$ {{ formatarMoedaVisor(totalGeral) }}</span>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-3 md:gap-4 mt-6">
+        <button (click)="fecharModalContrato()" class="hidden md:block py-4 px-6 text-sm uppercase font-bold text-slate-400 hover:text-white transition-colors outline-none w-full md:w-auto">Cancelar</button>
+        
+        <div class="flex flex-col md:flex-row flex-1 gap-3 md:gap-4">
+          <button *ngIf="locacaoSelecionada?.status === 'aguardando_orcamento' || locacaoSelecionada?.status === 'orcamento_enviado'" (click)="gerarContratoFinal(true)" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white py-4 px-4 rounded-2xl text-xs font-bold uppercase tracking-wider shadow-lg transition-all outline-none flex justify-center items-center">
+            Enviar Orçamento
+          </button>
+          
+          <button *ngIf="locacaoSelecionada?.status !== 'aguardando_orcamento'" (click)="gerarContratoFinal(false)" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-4 px-2 rounded-2xl text-xs font-bold uppercase tracking-wider shadow-lg transition-all outline-none">
+            Confirmar Pagamento e Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showModalAcerto" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center md:p-4">
+    <div class="bg-slate-800 border-t md:border border-orange-500/30 rounded-t-3xl md:rounded-[2.5rem] max-w-md w-full p-6 md:p-8 shadow-2xl pb-10 md:pb-8">
+      <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center gap-3">
+          <h3 class="font-bold text-xl text-white">Acerto Financeiro</h3>
+          <span class="hidden sm:inline bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-orange-500/30">Pendente</span>
+        </div>
+        <button (click)="fecharModalAcerto()" class="md:hidden bg-slate-700 text-slate-300 p-2.5 rounded-full outline-none hover:bg-slate-600 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      
+      <div class="bg-slate-900/60 border border-slate-700 p-5 rounded-2xl mb-6 text-sm shadow-inner">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Valor Base (Ref):</span>
+          <span class="text-slate-300 font-bold">R$ {{ locacaoSelecionada?.valorReferencia || '0.00' }}</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Restante Teórico:</span>
+          <span class="text-red-400 font-bold">R$ {{ locacaoSelecionada?.valorPendente || '0.00' }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col space-y-2 mb-6">
+        <label class="text-xs uppercase font-bold text-slate-400 ml-1">Valor Efetivamente Cobrado (R$)</label>
+        <input type="text" [value]="formatarMoedaVisor(dadosAcerto.valorCobrado)" (input)="aplicarMascaraMoeda($event, dadosAcerto, 'valorCobrado')" placeholder="0,00" class="bg-slate-900 border border-orange-500/50 text-white p-4 rounded-2xl text-lg font-bold outline-none focus:border-orange-500 transition-colors text-center shadow-inner">
+      </div>
+
+      <div *ngIf="porcentagemDescontoAcerto > 0" class="mb-6 flex items-center justify-center">
+        <span class="text-[10px] font-bold text-green-400 bg-green-500/10 border border-green-500/20 px-4 py-2 rounded-xl uppercase tracking-wider text-center w-full shadow-inner">
+          Desconto no Acerto: {{ porcentagemDescontoAcerto | number:'1.0-2' }}%
+        </span>
+      </div>
+
+      <div class="flex space-x-3">
+        <button (click)="fecharModalAcerto()" [disabled]="loading" class="flex-1 py-4 text-xs uppercase font-bold text-slate-400 hover:text-white transition-colors outline-none">Voltar</button>
+        <button (click)="finalizarAcerto()" [disabled]="loading" class="flex-[2] bg-orange-600 hover:bg-orange-500 disabled:bg-slate-600 text-white py-4 rounded-2xl text-xs font-bold uppercase tracking-wider shadow-lg transition-all outline-none">
+          {{ loading ? 'Processando...' : 'Pagamento Total' }}
+        </button>
+      </div>
+      
+    </div>
+  </div>
+
+        <div *ngIf="showModalNovaReserva" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[100] flex items-end md:items-center justify-center md:p-4">
+    <div class="bg-slate-800 border-t md:border border-slate-700 rounded-t-3xl md:rounded-[2.5rem] max-w-4xl w-full p-6 md:p-8 shadow-2xl overflow-y-auto max-h-[90vh] pb-10 md:pb-8 animate-fade-in">
+       <div class="flex justify-between items-center mb-6">
+          <h3 class="font-bold text-xl md:text-2xl text-white tracking-tight">Criar Reserva Manual</h3>
+          <button (click)="showModalNovaReserva = false" class="bg-slate-700 text-slate-300 p-2.5 rounded-full outline-none hover:bg-slate-600 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+       </div>
+
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900/50 border border-slate-700 rounded-2xl p-5 flex flex-col h-[520px]">
+             <h4 class="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-4">1. Selecione a Peça no Acervo</h4>
+             <div class="relative w-full mb-4 shrink-0">
+               <input [(ngModel)]="dadosNovaReserva.buscaBolo" type="text" placeholder="Buscar por código ou nome..." class="bg-slate-900 border border-slate-700 text-white rounded-lg p-3 pl-9 outline-none text-xs w-full focus:border-blue-500 transition-colors shadow-inner">
+               <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+             </div>
+
+             <div class="flex-1 overflow-y-auto space-y-2 pr-1.5 scrollbar-thin scrollbar-thumb-slate-600 h-0">
+                <div *ngFor="let bolo of bolosModalFiltrados" (click)="toggleBoloPDV(bolo)" [ngClass]="isBoloSelecionadoPDV(bolo.id) ? 'border-blue-500 bg-blue-500/10' : 'border-slate-700 hover:border-slate-500 bg-slate-800/80'" class="border rounded-xl p-3 cursor-pointer transition-all flex justify-between items-center group shadow-sm">
+                   <div class="flex flex-col min-w-0 flex-1 pr-2">
+                      <span class="font-mono text-xs text-blue-400 font-bold uppercase tracking-widest mb-0.5">{{ bolo.codigo || 'S/C' }}</span>
+                      <span class="text-xs font-bold text-slate-300 group-hover:text-white transition-colors truncate">{{ bolo.nome }} <span class="text-[10px] text-slate-500 ml-1">({{ exibirCategorias(bolo.categoria) }})</span></span>
+                   </div>
+                   <div *ngIf="isBoloSelecionadoPDV(bolo.id)" class="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center shrink-0">
+                      <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                   </div>
+                </div>
+             </div>
+          </div>
+
+                    <div class="bg-slate-900/50 border border-slate-700 rounded-2xl p-5 flex flex-col h-[520px]">
+             <h4 class="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-4">2. Dados Iniciais do Cliente</h4>
+
+             <div class="space-y-3 flex-1 overflow-y-auto pr-1.5 scrollbar-thin scrollbar-thumb-slate-600">
+                <div class="grid grid-cols-2 gap-3">
+                   <div class="flex flex-col space-y-1">
+                      <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Data Evento</label>
+                      <input type="date" [(ngModel)]="dadosNovaReserva.dataEvento" class="bg-slate-800 border border-slate-600 text-white rounded-xl p-2.5 outline-none text-sm focus:border-blue-500 transition-colors w-full shadow-inner">
+                   </div>
+                   <div class="flex flex-col space-y-1">
+                      <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Horário Ajustado</label>
+                      <input type="text" [value]="dadosNovaReserva.horarioAjustado" (input)="aplicarMascaraHora($event, dadosNovaReserva, 'horarioAjustado')" placeholder="14:00" class="bg-slate-800 border border-slate-600 text-white rounded-xl p-2.5 outline-none text-sm focus:border-blue-500 transition-colors w-full shadow-inner">
+                   </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3 mb-1">
+                   <label class="flex items-center gap-2 cursor-pointer group bg-slate-800 p-2.5 rounded-xl border border-slate-600">
+                      <input type="radio" name="logisticaPDV" value="retirada" [(ngModel)]="dadosNovaReserva.tipoLogistica" class="w-3.5 h-3.5 text-blue-600 bg-slate-900 border-slate-700 focus:ring-blue-600">
+                      <span class="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Retirada</span>
+                   </label>
+                   <label class="flex items-center gap-2 cursor-pointer group bg-slate-800 p-2.5 rounded-xl border border-slate-600">
+                      <input type="radio" name="logisticaPDV" value="entrega" [(ngModel)]="dadosNovaReserva.tipoLogistica" class="w-3.5 h-3.5 text-blue-600 bg-slate-900 border-slate-700 focus:ring-blue-600">
+                      <span class="text-[10px] font-bold text-slate-300 uppercase tracking-wider">Entrega</span>
+                   </label>
+                </div>
+
+                <div class="flex flex-col space-y-1">
+                   <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Nome Completo</label>
+                   <input type="text" [(ngModel)]="dadosNovaReserva.nome" placeholder="Ex: Maria Silva" class="bg-slate-800 border border-slate-600 text-white rounded-xl p-2.5 outline-none text-sm focus:border-blue-500 transition-colors w-full shadow-inner">
+                </div>
+                <div class="flex flex-col space-y-1">
+                   <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">WhatsApp</label>
+                   <input type="text" [(ngModel)]="dadosNovaReserva.whatsapp" placeholder="(00) 00000-0000" class="bg-slate-800 border border-slate-600 text-white rounded-xl p-2.5 outline-none text-sm focus:border-blue-500 transition-colors w-full shadow-inner">
+                </div>
+                <div class="flex flex-col space-y-1">
+                   <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">CPF do Cliente</label>
+                   <input type="text" [(ngModel)]="dadosNovaReserva.cpf" placeholder="000.000.000-00" class="bg-slate-800 border border-slate-600 text-white rounded-xl p-2.5 outline-none text-sm focus:border-blue-500 transition-colors w-full shadow-inner">
+                </div>
+                <div class="flex flex-col space-y-1 animate-fade-in" *ngIf="dadosNovaReserva.tipoLogistica === 'entrega'">
+                   <label class="text-[10px] uppercase font-bold text-slate-400 ml-1">Endereço (Rua, Bairro, Cidade)</label>
+                   <input type="text" [(ngModel)]="dadosNovaReserva.endereco" placeholder="Ex: Rua X, Centro, Criciúma" class="bg-slate-800 border border-slate-600 text-white rounded-xl p-2.5 outline-none text-sm focus:border-blue-500 transition-colors w-full shadow-inner">
+                </div>
+
+                <div class="pt-3 border-t border-slate-700/50 space-y-3">
+                   <label class="flex items-start gap-3 cursor-pointer group bg-slate-800/40 p-3 rounded-xl border border-slate-700/60 select-none">
+                      <input type="checkbox" [(ngModel)]="dadosNovaReserva.anotadoACaneta" class="mt-0.5 rounded bg-slate-900 border-slate-600 text-blue-600 focus:ring-blue-500 w-4 h-4 shrink-0">
+                      <div class="flex flex-col">
+                         <span class="text-xs font-bold text-slate-200 group-hover:text-white transition-colors uppercase tracking-wider">Anotado a caneta</span>
+                         <span class="text-[10px] text-slate-400 leading-relaxed mt-0.5">Quando esta opção está ativa o cliente não recebe nem uma notificação, mas vc também não recebe e terá que fazer tudo manual.</span>
+                      </div>
+                   </label>
+
+                   <div *ngIf="dadosNovaReserva.anotadoACaneta" class="flex flex-col space-y-1 animate-fade-in pl-1">
+                      <label class="text-[10px] uppercase font-bold text-slate-400">Status de Destino na Agenda</label>
+                      <select [(ngModel)]="dadosNovaReserva.statusDestino" class="bg-slate-800 border border-slate-600 text-white rounded-xl p-2.5 outline-none text-xs focus:border-blue-500 transition-colors w-full shadow-inner">
+                         <option value="pago">Pago (Fica na Agenda)</option>
+                         <option value="entregue">Entregue (Com o Cliente)</option>
+                         <option value="finalizado">Finalizado (Devolvido)</option>
+                      </select>
+                   </div>
+                </div>
+             </div>
+
+             <button (click)="criarReservaEAvancar()" [disabled]="dadosNovaReserva.bolosSelecionados.length === 0 || !dadosNovaReserva.dataEvento || !dadosNovaReserva.nome || !dadosNovaReserva.whatsapp || !dadosNovaReserva.cpf || loading" class="w-full mt-4 bg-green-600 hover:bg-green-500 disabled:bg-slate-700 disabled:text-slate-500 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg transition-all outline-none flex items-center justify-center gap-2">
+               {{ loading ? 'Processando...' : 'Avançar para o Orçamento' }}
+               <svg *ngIf="!loading" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+             </button>
+          </div>
+       </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,153 @@
+<div class="space-y-8 animate-fade-in">
+  
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 border-b border-slate-700/50">
+    <div class="flex flex-col">
+      <h3 class="text-xl font-bold text-white tracking-tight">Configuração de Comunicação Instantânea</h3>
+      <p class="text-xs text-slate-400 mt-1">Gerenciamento de instâncias da Evolution API e réguas de disparo de notificações.</p>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <span class="text-[10px] uppercase font-bold tracking-wider text-slate-500">Status do Serviço:</span>
+      <div [ngClass]="{
+        'bg-green-500/10 text-green-400 border-green-500/20': statusConexao === 'CONNECTED',
+        'bg-orange-500/10 text-orange-400 border-orange-500/20': statusConexao === 'DISCONNECTED',
+        'bg-blue-500/10 text-blue-400 border-blue-500/20': statusConexao === 'INITIALIZING'
+      }" class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full" [ngClass]="{
+          'bg-green-500 animate-pulse': statusConexao === 'CONNECTED',
+          'bg-orange-500': statusConexao === 'DISCONNECTED',
+          'bg-blue-500 animate-spin border border-t-transparent': statusConexao === 'INITIALIZING'
+        }"></span>
+        {{ statusConexao === 'CONNECTED' ? 'Conectado' : (statusConexao === 'DISCONNECTED' ? 'Desconectado' : 'Verificando...') }}
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <div class="lg:col-span-7 bg-slate-800/40 border border-slate-700/60 p-6 rounded-2xl space-y-6">
+      <h4 class="text-xs uppercase font-bold text-blue-400 tracking-widest border-l-4 border-blue-500 pl-3">Credenciais de Infraestrutura</h4>
+      
+      <div class="flex flex-col space-y-2">
+        <label class="text-xs uppercase font-bold text-slate-400 ml-1">URL Endpoint da API</label>
+        <input [(ngModel)]="config.urlApi" type="text" placeholder="Ex: https://api.suadominio.com" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-4 outline-none text-sm placeholder-slate-600 focus:border-blue-500 transition-colors shadow-inner w-full">
+      </div>
+
+      <div class="flex flex-col space-y-2">
+        <label class="text-xs uppercase font-bold text-slate-400 ml-1">Global API Key</label>
+        <div class="relative">
+          <input [(ngModel)]="config.apiKey" [type]="ocultarApiKey ? 'password' : 'text'" placeholder="Insira o Token de Autenticação" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-4 pr-12 outline-none text-sm placeholder-slate-600 focus:border-blue-500 transition-colors shadow-inner w-full font-mono">
+          <button (click)="ocultarApiKey = !ocultarApiKey" class="absolute right-4 top-4 text-slate-500 hover:text-white transition-colors outline-none">
+            <svg *ngIf="ocultarApiKey" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            <svg *ngIf="!ocultarApiKey" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 5.656m12 12l-6-6m6 6l-2-2m2 2l-3-3m-6-6h-1.01a4 4 0 00-3.136 1.58L2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <h4 class="text-xs uppercase font-bold text-blue-400 tracking-widest border-l-4 border-blue-500 pl-3 pt-4">Régua de Notificação (Admin)</h4>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Alerta de Pagamento 1</label>
+          <input [(ngModel)]="config.numeroNotificacaoPagamento" type="text" placeholder="Ex: 48999999999" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-4 outline-none text-xs placeholder-slate-600 focus:border-blue-500 transition-colors shadow-inner w-full font-mono">
+          <span class="text-[10px] text-slate-500 ml-1">Receberá os logs contábeis de Pix aprovado.</span>
+        </div>
+
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Alerta de Pagamento 2</label>
+          <input [(ngModel)]="config.numeroNotificacaoPagamento2" type="text" placeholder="Ex: 48999999999" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-4 outline-none text-xs placeholder-slate-600 focus:border-blue-500 transition-colors shadow-inner w-full font-mono">
+          <span class="text-[10px] text-slate-500 ml-1">Segundo número (Opcional).</span>
+        </div>
+
+        <div class="flex flex-col space-y-2 md:mt-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Alerta de Assinatura 1</label>
+          <input [(ngModel)]="config.numeroNotificacaoAssinatura" type="text" placeholder="Ex: 48999999999" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-4 outline-none text-xs placeholder-slate-600 focus:border-blue-500 transition-colors shadow-inner w-full font-mono">
+          <span class="text-[10px] text-slate-500 ml-1">Receberá a cópia do contrato firmado.</span>
+        </div>
+
+        <div class="flex flex-col space-y-2 md:mt-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Alerta de Assinatura 2</label>
+          <input [(ngModel)]="config.numeroNotificacaoAssinatura2" type="text" placeholder="Ex: 48999999999" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-4 outline-none text-xs placeholder-slate-600 focus:border-blue-500 transition-colors shadow-inner w-full font-mono">
+          <span class="text-[10px] text-slate-500 ml-1">Segundo número (Opcional).</span>
+        </div>
+      </div>
+
+      <h4 class="text-xs uppercase font-bold text-blue-400 tracking-widest border-l-4 border-blue-500 pl-3 pt-4">Régua de Logística</h4>
+      
+      <div class="grid grid-cols-1 gap-4">
+        <div class="flex flex-col space-y-2">
+          <label class="text-xs uppercase font-bold text-slate-400 ml-1">Celular do Entregador/Motorista</label>
+          <input [(ngModel)]="config.numeroEntregador" type="text" placeholder="Ex: 48999999999" class="bg-slate-900 border border-slate-700 text-white rounded-xl p-4 outline-none text-xs placeholder-slate-600 focus:border-blue-500 transition-colors shadow-inner w-full font-mono">
+          <span class="text-[10px] text-slate-500 ml-1">Receberá os dados do cliente, valor pendente de cobrança e a rota do Maps (Disparado quando contrato for assinado).</span>
+        </div>
+      </div>
+
+      <div class="pt-4">
+        <button (click)="salvarConfiguracoes()" [disabled]="loading" class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-700 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2 outline-none">
+          <svg *ngIf="loading" class="w-4 h-4 text-white animate-spin border-2 border-t-transparent rounded-full" viewBox="0 0 24 24"></svg>
+          {{ loading ? 'Gravando Parâmetros...' : 'Salvar Configurações' }}
+        </button>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 bg-slate-800/40 border border-slate-700/60 p-6 rounded-2xl flex flex-col items-center justify-center min-h-[420px]">
+      
+      <div *ngIf="statusConexao === 'DISCONNECTED' && !qrCodeBase64 && !gerandoQrCode" class="text-center space-y-6 max-w-xs animate-fade-in">
+        <div class="w-16 h-16 bg-slate-900 border border-slate-700 rounded-full flex items-center justify-center mx-auto shadow-inner text-slate-500">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 009 11V7a4 4 0 118 0v4c0 .654.166 1.27.461 1.814l.157.289m-1.43 5.07a12 12 0 01-9.065-9.065m9.065 9.065a12 12 0 009.065-9.065M12 3v18"></path></svg>
+        </div>
+        <div class="space-y-2">
+          <p class="text-sm font-bold text-white">Instância Inativa</p>
+          <p class="text-xs text-slate-400 leading-relaxed">Gere um novo token de pareamento para sincronizar o WhatsApp da Arte Festiva (`arte_festiva`).</p>
+        </div>
+        <button (click)="gerarConexaoInstancia()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm transition-colors outline-none">
+          Gerar QR Code de Login
+        </button>
+      </div>
+
+      <div *ngIf="gerandoQrCode" class="text-center space-y-4 animate-pulse">
+        <div class="w-48 h-48 bg-slate-900 border border-slate-700 rounded-2xl flex flex-col items-center justify-center mx-auto shadow-inner">
+          <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Requisitando Token...</span>
+        </div>
+        <p class="text-xs text-slate-400">Criando ou recuperando a sessão no Docker...</p>
+      </div>
+
+      <div *ngIf="statusConexao === 'DISCONNECTED' && qrCodeBase64 && !gerandoQrCode" class="text-center space-y-6 animate-fade-in w-full">
+        <div class="w-52 h-52 bg-white mx-auto rounded-2xl flex items-center justify-center shadow-2xl p-3 border-4 border-slate-700 relative group overflow-hidden">
+          <img [src]="qrCodeBase64" alt="Evolution API QR Code" class="w-full h-full object-contain pointer-events-none">
+        </div>
+        
+        <div class="space-y-2 max-w-xs mx-auto">
+          <p class="text-xs font-bold text-orange-400 uppercase tracking-widest animate-pulse flex items-center justify-center gap-1.5">
+            <span class="w-1.5 h-1.5 bg-orange-500 rounded-full"></span> Aguardando Leitura
+          </p>
+          <p class="text-[11px] text-slate-400 leading-relaxed">Abra o WhatsApp no aparelho da Gê, vá em <strong class="text-white">Dispositivos Conectados</strong> e aponte a câmera para a tela.</p>
+        </div>
+
+        <button (click)="desconectarOuLimparInstancia()" class="text-xs font-bold text-red-400 hover:text-red-300 transition-colors underline outline-none uppercase tracking-wider block mx-auto">
+          Cancelar Operação
+        </button>
+      </div>
+
+      <div *ngIf="statusConexao === 'CONNECTED'" class="text-center space-y-6 max-w-xs animate-fade-in">
+        <div class="w-20 h-20 bg-green-500/10 text-green-400 border border-green-500/20 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-green-500/5">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <div class="space-y-2">
+          <p class="text-base font-black text-white">Dispositivo Pareado!</p>
+          <p class="text-xs text-slate-400 leading-relaxed">A instância <strong class="text-blue-400 font-mono">arte_festiva</strong> está online e pronta para despachar os PDFs de orçamento e as réguas de disparo automático.</p>
+        </div>
+        
+        <div class="pt-2">
+          <button (click)="desconectarOuLimparInstancia()" [disabled]="loading" class="w-full bg-transparent border border-red-500/30 text-red-400 hover:bg-red-500/10 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors outline-none">
+            Desconectar WhatsApp
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
